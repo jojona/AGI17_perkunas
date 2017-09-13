@@ -42,10 +42,18 @@ public class NewBehaviourScript : MonoBehaviour {
 		if (Controller.GetPressDown(SteamVR_Controller.ButtonMask.Grip))
 		{
 			Debug.Log(gameObject.name + " Grip Press");
+			grabber g = this.gameObject.getComponent<Grabber> ();
+			if (g != null) {
+				g.grab ();
+			}
 		}
 		if (Controller.GetPressUp(SteamVR_Controller.ButtonMask.Grip))
 		{
 			Debug.Log(gameObject.name + " Grip Release");
+			grabber g = this.gameObject.getComponent<Grabber> ();
+			if (g != null) {
+				g.ungrab ();
+			}
 		}
 
 	}
