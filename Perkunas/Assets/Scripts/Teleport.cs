@@ -56,20 +56,24 @@ public class Teleport : MonoBehaviour {
 				reticle.transform.position = hitPoint + teleportReticleOffset;
 				shouldTeleport = true;
 			} else {
-				// TODO Do a parabolic curve instead of straigt teleport line
+				// Do a parabolic curve instead of straigt teleport line
 				float angle = 90 - Vector3.Angle (Vector3.up, transform.forward);
-				float force = 5f;
+				float force = 10f; // TODO distance to end of map
 
-				Debug.Log ("Angle " + angle);
 				float d = force * Mathf.Sin (angle);
 
 				hitPoint = trackedObj.transform.position + d * (transform.forward - Vector3.Dot (transform.forward, Vector3.up) * Vector3.up);
+				hitPoint.y = 0;
 				reticle.SetActive (true);
 				reticle.transform.position = hitPoint + teleportReticleOffset;
+
+				// TODO Cap it to end of map
+
+				// TODO Draw "Curve laser"
+
+				// TODO if location ok
+				shouldTeleport = true;
 			}
-
-
-
 		} else {
 			laser.SetActive(false);
 			reticle.SetActive(false);
