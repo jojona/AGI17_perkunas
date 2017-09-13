@@ -57,12 +57,11 @@ public class Teleport : MonoBehaviour {
 				shouldTeleport = true;
 			} else {
 				// TODO Do a parabolic curve instead of straigt teleport line
-
-				int angle = 90 - Vector3.Angle (Vector3.up, transform.forward);
-				Vector3 force = 5 * Vector3.one;
+				float angle = 90 - Vector3.Angle (Vector3.up, transform.forward);
+				float force = 5f;
 
 				Debug.Log ("Angle " + angle);
-				int d = force * Mathf.Sin (angle);
+				float d = force * Mathf.Sin (angle);
 
 				hitPoint = trackedObj.transform.position + d * (transform.forward - Vector3.Dot (transform.forward, Vector3.up) * Vector3.up);
 				reticle.SetActive (true);
