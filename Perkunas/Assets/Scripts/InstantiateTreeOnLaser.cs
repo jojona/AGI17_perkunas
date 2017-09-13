@@ -55,30 +55,13 @@ public class InstantiateTreeOnLaser : MonoBehaviour
         {
             RaycastHit hit;
 
-            if (Physics.Raycast(trackedObj.transform.position, transform.forward, out hit, 100, teleportMask))
-            {
+            if (Physics.Raycast(trackedObj.transform.position, transform.forward, out hit, 100, teleportMask)) {
                 hitPoint = hit.point;
                 ShowLaser(hit);
                 reticle.SetActive(true);
                 reticle.transform.position = hitPoint + teleportReticleOffset;
                 shouldSpawnTree = true;
             }
-            else
-            {
-                // TODO Do a parabolic curve instead of straigt teleport line
-
-                //float angle = 90 - Vector3.Angle(Vector3.up, transform.forward);
-                //Vector3 force = 5 * Vector3.one;
-
-                //Debug.Log("Angle " + angle);
-                //Vector3 d = force * Mathf.Sin(angle);
-
-                //hitPoint = trackedObj.transform.position + d * (transform.forward - Vector3.Dot(transform.forward, Vector3.up) * Vector3.up);
-                //reticle.SetActive(true);
-                //reticle.transform.position = hitPoint + teleportReticleOffset;
-            }
-
-
 
         }
         else
