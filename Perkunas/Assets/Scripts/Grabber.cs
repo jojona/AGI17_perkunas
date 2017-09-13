@@ -39,7 +39,7 @@ public class Grabber : MonoBehaviour {
 				if (g != null) {
 					grabbed = c.gameObject;
 					g.attach (this.gameObject);
-					Debug.Log("grabbed " + grabbed.ToString();
+					Debug.Log("grabbed " + grabbed.ToString());
 					noGrab = false;
 					break;
 				}
@@ -47,13 +47,13 @@ public class Grabber : MonoBehaviour {
 			if(noGrab)
 				Debug.Log ("nothing to grab");
 		} else {
-			Debug.log("Tried to grab something while holding something");
+			Debug.Log("Tried to grab something while holding something");
 		}
 	}
 
 	public void ungrab() {
 		if (grabbed != null) {	
-									Debug.Log("Ungrabbing " + grabbed.ToString();
+									Debug.Log("Ungrabbing " + grabbed.ToString());
 			grabbed.GetComponent<Grabable> ().detach ();
 			grabbed = null;
 
