@@ -44,14 +44,14 @@ public class ViveController : MonoBehaviour {
 		// 	Grip button
 		if (Controller.GetPressDown(SteamVR_Controller.ButtonMask.Grip)) {
 			Debug.Log(gameObject.name + " Grip Press");
-			Grabber g = this.gameObject.getComponent<Grabber> ();
+			Grabber g = this.gameObject.GetComponent<Grabber> ();
 			if (g != null) {
 				g.grab ();
 			}
 		}
 		if (Controller.GetPressUp(SteamVR_Controller.ButtonMask.Grip)) {
 			Debug.Log(gameObject.name + " Grip Release");
-			Grabber g = this.gameObject.getComponent<Grabber> ();
+			Grabber g = this.gameObject.GetComponent<Grabber> ();
 			if (g != null) {
 				g.ungrab ();
 			}
