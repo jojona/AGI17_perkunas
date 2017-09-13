@@ -16,7 +16,7 @@ public class Grabber : MonoBehaviour {
 	void Update () {
 		//we may or may not need a more sophisticated way of interacting with the controllers.
 		//is there any reason we may want to react to a grab by anything other than the vive controllers?
-		if(Input.
+		//if(Input.
 	}
 
 
@@ -31,15 +31,23 @@ public class Grabber : MonoBehaviour {
 	}
 
 	public void grab() {
-		if (colliders.Count > 0) {
-			Grabable g = colliders.First.Value.gameObject.GetComponent<Grabable> ();
-			if (g != null) {
-				grabbed = colliders.First.Value.gameObject;
-				g.attach (this.gameObject);
-				Debug.Log("grabbed " + grabbed.ToString();
-			} else {
-				Debug.Log ("nothing to grab");
+		if (grabbed == null) {
+			bool noGrab = true;
+			//iterate through all colliders, use the first suitable
+			foreach(Collision c in colliders) {
+				Grabable g = c.gameObject.GetComponent<Grabable> ();
+				if (g != null) {
+					grabbed = c.gameObject;
+					g.attach (this.gameObject);
+					Debug.Log("grabbed " + grabbed.ToString();
+					noGrab = false;
+					break;
+				}
 			}
+			if(noGrab)
+				Debug.Log ("nothing to grab");
+		} else {
+			Debug.log("Tried to grab something while holding something");
 		}
 	}
 
