@@ -15,7 +15,7 @@ public class InstantiateTreeOnLaser : MonoBehaviour
     }
 
     private SteamVR_TrackedObject trackedObj;
-
+    public Object Tree;
     public GameObject laserPrefab;
     private GameObject laser;
     private Transform laserTransform;
@@ -27,7 +27,7 @@ public class InstantiateTreeOnLaser : MonoBehaviour
     public Transform headTransform;
     public Vector3 teleportReticleOffset;
     public LayerMask teleportMask;
-    private bool shouldTeleport;
+    private bool shouldSpawnTree;
 
     private SteamVR_Controller.Device Controller
     {
@@ -61,7 +61,7 @@ public class InstantiateTreeOnLaser : MonoBehaviour
                 ShowLaser(hit);
                 reticle.SetActive(true);
                 reticle.transform.position = hitPoint + teleportReticleOffset;
-                shouldTeleport = true;
+                shouldSpawnTree = true;
             }
             else
             {
@@ -87,18 +87,20 @@ public class InstantiateTreeOnLaser : MonoBehaviour
             reticle.SetActive(false);
         }
 
-        if (Controller.GetPressUp(SteamVR_Controller.ButtonMask.Touchpad) && shouldTeleport)
+        if (Controller.GetPressUp(SteamVR_Controller.ButtonMask.Touchpad) && shouldSpawnTree)
         {
-            TeleportPlayer();
+            SpawnTree();
         }
     }
 
-    private void TeleportPlayer()
+    private void SpawnTree()
     {
-        shouldTeleport = false;
+        shouldSpawnTree = false;
         reticle.SetActive(false);
-        Vector3 difference = cameraRigTransform.position - headTransform.position;
-        difference.y = 0;
-        cameraRigTransform.position = hitPoint + difference;
+        Vector3 vec = hitPoint;
+        vec.y = 1;
+        Quaternion quat = new Quaternion();
+
+        Instantiate(Tree, vec, quat);
     }
 }
