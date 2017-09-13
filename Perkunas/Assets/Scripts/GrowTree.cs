@@ -15,7 +15,7 @@ public class GrowTree : MonoBehaviour {
 	void Update () {
 		if (transform.localScale.y < maxHigh){
 			transform.localScale += new Vector3(0, speed, 0);
-			transform.Translate(new Vector3(0, 0.1f, 0));
+			transform.Translate(new Vector3(0, speed/2f, 0));
 		}
 	}
 

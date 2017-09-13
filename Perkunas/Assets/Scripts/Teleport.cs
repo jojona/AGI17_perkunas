@@ -57,8 +57,14 @@ public class Teleport : MonoBehaviour {
 				shouldTeleport = true;
 			} else {
 				// Do a parabolic curve instead of straigt teleport line
-				float angle = 90 - Vector3.Angle (Vector3.up, transform.forward);
-				float force = 10f; // TODO distance to end of map
+				float angle = 90f - Vector3.Angle (Vector3.up, transform.forward);
+				if (angle > 90 || angle < 0) {
+					continue;
+				}
+
+				// TODO throwinglocation is the foot
+
+				float force = 1f; // TODO distance to end of map
 
 				float d = force * Mathf.Sin (angle);
 
