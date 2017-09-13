@@ -56,14 +56,16 @@ public class Teleport : MonoBehaviour {
 				reticle.transform.position = hitPoint + teleportReticleOffset;
 				shouldTeleport = true;
 			} else {
+				laser.SetActive(false); // TODO Do when we change from ground to throw
 				// Do a parabolic curve instead of straigt teleport line
 				float angle = 90f - Vector3.Angle (Vector3.up, transform.forward);
-				if (angle < 90 || angle > 0) {
+				if (angle < 90 && angle > 0) {
 					// TODO throwinglocation is the foot
 
-					float force = 1f; // TODO distance to end of map
+					float force = 10f; // TODO distance to end of map
 
-					float d = force * Mathf.Sin (angle);
+					float d = force * Mathf.Sin (angle*2*Mathf.PI/360);
+
 
 					hitPoint = trackedObj.transform.position + d * (transform.forward - Vector3.Dot (transform.forward, Vector3.up) * Vector3.up);
 					hitPoint.y = 0;
