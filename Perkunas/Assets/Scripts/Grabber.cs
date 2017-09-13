@@ -51,10 +51,10 @@ public class Grabber : MonoBehaviour {
 		}
 	}
 
-	public void ungrab() {
+	public void ungrab(Vector3 vel, Vector3 ang) {
 		if (grabbed != null) {	
 									Debug.Log("Ungrabbing " + grabbed.ToString());
-			grabbed.GetComponent<Grabable> ().detach ();
+			grabbed.GetComponent<Grabable> ().detach (vel, ang);
 			grabbed = null;
 
 		} else {
