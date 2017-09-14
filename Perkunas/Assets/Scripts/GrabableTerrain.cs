@@ -34,41 +34,44 @@ public class GrabableTerrain : Grabable {
 			float manipRelHeight = manipulator.transform.position.y - transform.position.y;
 			int absX = (int)(manipRelPos.x * resolutionPerUnit);
 			int absY = (int)(manipRelPos.y * resolutionPerUnit);
-			float relHeightAbs = manipRelHeight - terrain.terrainData.GetHeight (absX, absY);
-			float newHeight = manipRelHeight / 600;
+			float newHeight = manipRelHeight / 3;
 			newHeight = newHeight > 1 ? 1 : newHeight;
 			newHeight = newHeight < 0 ? 0 : newHeight;
 			int cubeWidth = (int)(effectRadius * resolutionPerUnit);
-			Debug.Log ("relative position: "+ manipRelPos + ", relative height: " + manipRelHeight + ", relative height abs: " + relHeightAbs);
-			Debug.Log ("absX: "+ absX + ", absY: " + absY);
-			Debug.Log ("resu: "+ resolutionPerUnit);
+			//Debug.Log ("relative position: "+ manipRelPos + ", relative height: " + manipRelHeight + ", relative height abs: " + relHeightAbs);
+			//Debug.Log ("absX: "+ absX + ", absY: " + absY);
+			//Debug.Log ("resu: "+ resolutionPerUnit);
 			int maxDist = cubeWidth/2;
-			float offset = (float) 0.1 / 600;
-			if(newHeight > terrain.terrainData.GetHeight(absX - maxDist, absY - maxDist) + offset) {
+			float offset = (float)0.1 / 600;
+			if(newHeight - offset > terrain.terrainData.GetHeight(absX - maxDist, absY - maxDist)) {
+				newHeight -= offset;
 				float[,] data = terrain.terrainData.GetHeights (absX - maxDist, absY - maxDist, cubeWidth, cubeWidth);
-				Debug.Log("terrain height: " + data[0,0]);
+				Debug.Log("terrain height1: " + data[maxDist,maxDist]);
 				for (int x = 0; x < cubeWidth; ++x) {
 					for (int y = 0; y < cubeWidth; ++y) {
 						float dist = (x - (maxDist))*(x-(maxDist));
 						dist += (y - (maxDist)) * (y - (maxDist));
 						dist = Mathf.Sqrt (dist);
-						data [x, y] = max(newHeight * (float)Mathf.Cos ((float)((dist / maxDist) * 0.5 * Mathf.PI)), data [x, y]);
+						data [x, y] = max(newHeight * (float)Mathf.Cos ((float)((dist / (float)maxDist) * 0.5 * Mathf.PI)), data [x, y]);
 						data [x, y] = data [x, y] < 0.0f ? 0.0f : data [x, y];
+						data [x, y] = data [x, y] > 1.0f ? 1.0f : data [x, y];
 					}
 				}
-				Debug.Log ("set to: " + data [0, 0]);
+				Debug.Log ("set to: " + data [maxDist, maxDist]);
 
 				terrain.terrainData.SetHeights(absX - maxDist, absY - maxDist, data);
-			} else if(newHeight < terrain.terrainData.GetHeight(absX - maxDist, absY - maxDist) - offset){
+			} else if(newHeight + offset < terrain.terrainData.GetHeight(absX - maxDist, absY - maxDist)){
+				newHeight += offset;
 				float[,] data = terrain.terrainData.GetHeights (absX - maxDist, absY - maxDist, cubeWidth, cubeWidth);
-				Debug.Log("terrain height: " + data[0,0]);
+				Debug.Log("terrain height2: " + data[0,0]);
 				for (int x = 0; x < cubeWidth; ++x) {
 					for (int y = 0; y < cubeWidth; ++y) {
 						float dist = (x - (maxDist))*(x-(maxDist));
 						dist += (y - (maxDist)) * (y - (maxDist));
 						dist = Mathf.Sqrt (dist);
-						data [x, y] = min((1.0f-newHeight) * (float)Mathf.Cos ((float)((dist / maxDist) * 0.5 * Mathf.PI)), data [x, y]);
-						data [x, y] = data [x, y] > 1.0f ? 0.0f : data [x, y];
+						data [x, y] = min((1.0f-newHeight) * (float)Mathf.Cos ((float)((dist / (float)maxDist) * 0.5 * Mathf.PI)), data [x, y]);
+						data [x, y] = data [x, y] < 0.0f ? 0.0f : data [x, y];
+						data [x, y] = data [x, y] > 1.0f ? 1.0f : data [x, y];
 					}
 				}
 				Debug.Log ("set to: " + data [0, 0]);
