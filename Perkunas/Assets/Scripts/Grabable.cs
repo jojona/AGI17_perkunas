@@ -17,7 +17,7 @@ public class Grabable : MonoBehaviour {
 	void Update () {
 
 	}
-	public void attach(GameObject g, SteamVR_Controller.Device Controller) {
+	public void attach(GameObject g) {
 		FixedJoint fx = g.gameObject.AddComponent<FixedJoint>();
     		fx.breakForce = 20000;
     		fx.breakTorque = 20000;
@@ -31,7 +31,7 @@ public class Grabable : MonoBehaviour {
 			{
 			// 2
 			attachedTo.GetComponent<FixedJoint>().connectedBody = null;
-			attachedTo.Destroy(GetComponent<FixedJoint>());
+			Destroy(attachedTo.GetComponent<FixedJoint>());
 			// 3
 			GetComponent<Rigidbody>().velocity = vel;
 			GetComponent<Rigidbody>().angularVelocity = ang;

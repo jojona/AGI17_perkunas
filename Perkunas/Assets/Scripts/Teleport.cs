@@ -62,7 +62,7 @@ public class Teleport : MonoBehaviour {
 				if (angle < 90 && angle > 0) {
 					// TODO throwinglocation is the foot
 
-					float force = 10f; // TODO distance to end of map
+					float force = 25f; // TODO distance to end of map
 
 					float d = force * Mathf.Sin (angle*2*Mathf.PI/360);
 
