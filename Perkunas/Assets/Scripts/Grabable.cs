@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Grabable : MonoBehaviour {
 	public GameObject attachedTo = null;
+		
+
 	// Use this for initialization
 	void Start () {
 		if (attachedTo != null) {
@@ -15,14 +17,27 @@ public class Grabable : MonoBehaviour {
 	void Update () {
 
 	}
-
 	public void attach(GameObject g) {
+		FixedJoint fx = g.gameObject.AddComponent<FixedJoint>();
+    		fx.breakForce = 20000;
+    		fx.breakTorque = 20000;
+
+		fx.connectedBody = GetComponent<Rigidbody>();
 		attachedTo = g;
-		this.gameObject.transform.parent = g.transform;
 	}
 
-	public void detach() {
+	public void detach(Vector3 vel, Vector3 ang) {
+		if (attachedTo != null && attachedTo.GetComponent<FixedJoint>())
+			{
+			// 2
+			attachedTo.GetComponent<FixedJoint>().connectedBody = null;
+			Destroy(attachedTo.GetComponent<FixedJoint>());
+			// 3
+			GetComponent<Rigidbody>().velocity = vel;
+			GetComponent<Rigidbody>().angularVelocity = ang;
+			}		
+
 		attachedTo = null;
-		this.gameObject.transform.parent = null;
+		
 	}
 }

@@ -54,7 +54,7 @@ public class ViveController : MonoBehaviour {
 			Debug.Log(gameObject.name + "Trigger Release");
 			Grabber g = this.gameObject.GetComponent<Grabber> ();
 			if (g != null) {
-				g.ungrab ();
+				g.ungrab (Controller.velocity, Controller.angularVelocity);
 			}
 		}
 		if (Controller.GetHairTrigger ()) {
@@ -68,7 +68,6 @@ public class ViveController : MonoBehaviour {
 		}
 		if (Controller.GetPressUp(SteamVR_Controller.ButtonMask.Grip)) {
 			Debug.Log(gameObject.name + " Grip Release");
-
 		}
 
 	}
