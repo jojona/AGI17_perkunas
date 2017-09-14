@@ -46,7 +46,7 @@ public class GrabableTerrain : Grabable {
 			if(newHeight - offset > terrain.terrainData.GetHeight(absX - maxDist, absY - maxDist)) {
 				newHeight -= offset;
 				float[,] data = terrain.terrainData.GetHeights (absX - maxDist, absY - maxDist, cubeWidth, cubeWidth);
-				Debug.Log("terrain height1: " + data[maxDist,maxDist]);
+				//Debug.Log("terrain height1: " + data[maxDist,maxDist]);
 				for (int x = 0; x < cubeWidth; ++x) {
 					for (int y = 0; y < cubeWidth; ++y) {
 						float dist = (x - (maxDist))*(x-(maxDist));
@@ -57,13 +57,13 @@ public class GrabableTerrain : Grabable {
 						data [x, y] = data [x, y] > 1.0f ? 1.0f : data [x, y];
 					}
 				}
-				Debug.Log ("set to: " + data [maxDist, maxDist]);
+				//Debug.Log ("set to: " + data [maxDist, maxDist]);
 
 				terrain.terrainData.SetHeights(absX - maxDist, absY - maxDist, data);
 			} else if(newHeight + offset < terrain.terrainData.GetHeight(absX - maxDist, absY - maxDist)){
 				newHeight += offset;
 				float[,] data = terrain.terrainData.GetHeights (absX - maxDist, absY - maxDist, cubeWidth, cubeWidth);
-				Debug.Log("terrain height2: " + data[0,0]);
+				//Debug.Log("terrain height2: " + data[0,0]);
 				for (int x = 0; x < cubeWidth; ++x) {
 					for (int y = 0; y < cubeWidth; ++y) {
 						float dist = (x - (maxDist))*(x-(maxDist));
@@ -74,7 +74,7 @@ public class GrabableTerrain : Grabable {
 						data [x, y] = data [x, y] > 1.0f ? 1.0f : data [x, y];
 					}
 				}
-				Debug.Log ("set to: " + data [0, 0]);
+				//Debug.Log ("set to: " + data [0, 0]);
 
 				terrain.terrainData.SetHeights(absX - maxDist, absY - maxDist, data);
 			}
