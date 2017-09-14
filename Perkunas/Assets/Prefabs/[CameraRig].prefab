@@ -416,7 +416,7 @@ BoxCollider:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1688560034158818}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 0.14, y: 0.07, z: 0.05}
@@ -428,7 +428,7 @@ BoxCollider:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1813251571983220}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 0.14, y: 0.07, z: 0.05}
@@ -508,9 +508,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   laserPrefab: {fileID: 1264106117749700, guid: 7814caa4758f21646ba4e94338c2f3f3,
     type: 2}
-  cameraRigTransform: {fileID: 4328694907507664}
   teleportReticlePrefab: {fileID: 1703776075762380, guid: eb6c361e3f71d704d97404f56b62f1f7,
     type: 2}
+  cameraRigTransform: {fileID: 4328694907507664}
   headTransform: {fileID: 4533941300699696}
   teleportReticleOffset: {x: 0, y: 0.05, z: 0}
   teleportMask:
@@ -663,17 +663,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d9c6717109cc88042bf953c0832fd35a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Tree: {fileID: 1673738629580620, guid: b35412a11c108024293581182ed23ba4, type: 2}
   laserPrefab: {fileID: 1264106117749700, guid: 7814caa4758f21646ba4e94338c2f3f3,
     type: 2}
-  cameraRigTransform: {fileID: 4328694907507664}
   teleportReticlePrefab: {fileID: 1703776075762380, guid: eb6c361e3f71d704d97404f56b62f1f7,
     type: 2}
+  cameraRigTransform: {fileID: 4328694907507664}
   headTransform: {fileID: 4533941300699696}
   teleportReticleOffset: {x: 0, y: 0.05, z: 0}
   teleportMask:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 256
+  spawnAsset: {fileID: 1673738629580620, guid: b35412a11c108024293581182ed23ba4, type: 2}
 --- !u!124 &124797948388201712
 Behaviour:
   m_ObjectHideFlags: 1
