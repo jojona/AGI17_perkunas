@@ -14,10 +14,10 @@ public class Teleport : LaserPointer {
 
 			// Do a parabolic curve instead of straigt teleport line
 			float angle = 90f - Vector3.Angle (Vector3.up, transform.forward);
-			if (angle < 90 || angle > 0) {
+			if (angle < 90 && angle > 0) {
 				float force = 25f; // TODO distance to end of map
 
-				float d = force * Mathf.Sin (angle); // TODO throwinglocation is the foot
+				float d = force * Mathf.Sin (Mathf.PI*angle/180); // TODO throwinglocation is the foot
 
 				hitPoint = trackedObj.transform.position + d * (transform.forward - Vector3.Dot (transform.forward, Vector3.up) * Vector3.up);
 				hitPoint.y = 0;
@@ -30,6 +30,8 @@ public class Teleport : LaserPointer {
 
 				// TODO if location ok
 				shouldTeleport = true;
+			} else {
+				reticle.SetActive (false);
 			}
 		}
 	}
@@ -37,12 +39,13 @@ public class Teleport : LaserPointer {
 	public override void release() {
 		if (shouldTeleport) {
 			TeleportPlayer();
+			reticle.SetActive(false);
+			laser.SetActive (false);
 		}
 	}
 
 	private void TeleportPlayer() {
 		shouldTeleport = false;
-		reticle.SetActive(false);
 		Vector3 difference = cameraRigTransform.position - headTransform.position;
 		difference.y = 0;
 		cameraRigTransform.position = hitPoint + difference;

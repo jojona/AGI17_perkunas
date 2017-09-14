@@ -13,20 +13,23 @@ public class InstantiateObjectOnReticle: LaserPointer
 	public override void holdDown() {
 		if (Raycast ()) {
 			shouldSpawnTree = true;
+		} else {
+			reticle.SetActive (false);
+			laser.SetActive (false);
 		}
 	}
 
 	public override void release() {
 		if (shouldSpawnTree) {
 			SpawnTree();
+			reticle.SetActive(false);
+			laser.SetActive(false);
 		}
 
 	}
 
     private void SpawnTree() {
         shouldSpawnTree = false;
-        reticle.SetActive(false);
-		laser.SetActive(false);
         Vector3 vec = hitPoint;
         vec.y = 1; // TODO based on asset size
         Quaternion quat = new Quaternion();

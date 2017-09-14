@@ -59,6 +59,7 @@ public abstract class LaserPointer : MonoBehaviour {
 			return true;
 		} else {
 			reticle.SetActive (false);
+			laser.SetActive (false);
 			return false;
 		}
 	}
