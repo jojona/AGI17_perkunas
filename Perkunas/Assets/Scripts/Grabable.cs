@@ -3,21 +3,18 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Grabable : MonoBehaviour {
-	public GameObject attachedTo = null;
+	private GameObject attachedTo = null;
 		
 
 	// Use this for initialization
 	void Start () {
-		if (attachedTo != null) {
-			this.gameObject.transform.parent = attachedTo.transform;
-		}
 	}
 	
 	// Update is called once per frame
 	void Update () {
 
 	}
-	public void attach(GameObject g) {
+	public virtual void attach(GameObject g) {
 		FixedJoint fx = g.gameObject.AddComponent<FixedJoint>();
     		fx.breakForce = 20000;
     		fx.breakTorque = 20000;
@@ -26,7 +23,7 @@ public class Grabable : MonoBehaviour {
 		attachedTo = g;
 	}
 
-	public void detach(Vector3 vel, Vector3 ang) {
+	public virtual void detach(Vector3 vel, Vector3 ang) {
 		if (attachedTo != null && attachedTo.GetComponent<FixedJoint>())
 			{
 			// 2
