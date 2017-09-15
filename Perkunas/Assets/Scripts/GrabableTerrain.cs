@@ -34,7 +34,7 @@ public class GrabableTerrain : Grabable {
 			float manipRelHeight = manipulator.transform.position.y - transform.position.y;
 			int absX = (int)(manipRelPos.x * resolutionPerUnit);
 			int absY = (int)(manipRelPos.y * resolutionPerUnit);
-			float newHeight = manipRelHeight / 3;
+			float newHeight = manipRelHeight / 3.0f;
 			newHeight = newHeight > 1 ? 1 : newHeight;
 			newHeight = newHeight < 0 ? 0 : newHeight;
 			int cubeWidth = (int)(effectRadius * resolutionPerUnit);
@@ -42,8 +42,8 @@ public class GrabableTerrain : Grabable {
 			//Debug.Log ("absX: "+ absX + ", absY: " + absY);
 			//Debug.Log ("resu: "+ resolutionPerUnit);
 			int maxDist = cubeWidth/2;
-			float offset = (float)0.1 / 600;
-			if(newHeight - offset > terrain.terrainData.GetHeight(absX - maxDist, absY - maxDist)) {
+			float offset = (float)0.025 / 3.0f;
+			if(newHeight - offset > terrain.terrainData.GetHeight(absX, absY)/3.0f) {
 				newHeight -= offset;
 				float[,] data = terrain.terrainData.GetHeights (absX - maxDist, absY - maxDist, cubeWidth, cubeWidth);
 				//Debug.Log("terrain height1: " + data[maxDist,maxDist]);
@@ -60,7 +60,7 @@ public class GrabableTerrain : Grabable {
 				//Debug.Log ("set to: " + data [maxDist, maxDist]);
 
 				terrain.terrainData.SetHeights(absX - maxDist, absY - maxDist, data);
-			} else if(newHeight + offset < terrain.terrainData.GetHeight(absX - maxDist, absY - maxDist)){
+			} else if(newHeight + offset < terrain.terrainData.GetHeight(absX, absY)/3.0f){
 				newHeight += offset;
 				float[,] data = terrain.terrainData.GetHeights (absX - maxDist, absY - maxDist, cubeWidth, cubeWidth);
 				//Debug.Log("terrain height2: " + data[0,0]);
@@ -69,7 +69,7 @@ public class GrabableTerrain : Grabable {
 						float dist = (x - (maxDist))*(x-(maxDist));
 						dist += (y - (maxDist)) * (y - (maxDist));
 						dist = Mathf.Sqrt (dist);
-						data [x, y] = min((1.0f-newHeight) * (float)Mathf.Cos ((float)((dist / (float)maxDist) * 0.5 * Mathf.PI)), data [x, y]);
+						data [x, y] = min(1.0f - max((1.0f-newHeight) * (float)Mathf.Cos ((float)((dist / (float)maxDist) * 0.5 * Mathf.PI)),0.0f), data [x, y]);
 						data [x, y] = data [x, y] < 0.0f ? 0.0f : data [x, y];
 						data [x, y] = data [x, y] > 1.0f ? 1.0f : data [x, y];
 					}
