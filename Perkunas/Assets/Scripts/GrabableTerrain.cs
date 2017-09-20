@@ -89,4 +89,72 @@ public class GrabableTerrain : Grabable {
 		manipulator = null;
 		//we do nothing special with the release speeds here
 	}
+
+	public void updateTextureInSquare(int x, int y, int width) {
+		TerrainData terrData = terrain.terrainData;
+		int xMax = x + width > terrData.alphamapWidth ? terrData.heightmapWidth : x + width;
+		int yMax = y + width > terrData.alphamapHeight ? terrData.heightmapWidth : y + width;
+
+
+		float[, ,] splatmapData = new float[xMax - x, yMax - y, terrData.alphamapLayers];
+		for (int i = x; i < xMax; ++i) {
+			for (int j = y; j < yMax; ++j) {
+				//code from here copy-pasted from tutorial, make sure to update it as apropriate
+				float y_01 = (float)y/(float)terrData.alphamapHeight;
+				float x_01 = (float)x/(float)terrData.alphamapWidth;
+
+				// Sample the height at this location (note GetHeight expects int coordinates corresponding to locations in the heightmap array)
+				float height = terrData.GetHeight(Mathf.RoundToInt(y_01 * terrData.heightmapHeight),Mathf.RoundToInt(x_01 * terrData.heightmapWidth) );
+
+				// Calculate the normal of the terrain (note this is in normalised coordinates relative to the overall terrain dimensions)
+				Vector3 normal = terrData.GetInterpolatedNormal(y_01,x_01);
+
+				// Calculate the steepness of the terrain
+				float steepness = terrData.GetSteepness(y_01,x_01);
+
+				// Setup an array to record the mix of texture weights at this point
+				float[] splatWeights = new float[terrData.alphamapLayers];
+
+				// CHANGE THE RULES BELOW TO SET THE WEIGHTS OF EACH TEXTURE ON WHATEVER RULES YOU WANT
+
+				// Texture[0] has constant influence
+				splatWeights[0] = 0.5f;
+
+				// Texture[2] stronger on flatter terrain
+				// Note "steepness" is unbounded, so we "normalise" it by dividing by the extent of heightmap height and scale factor
+				// Subtract result from 1.0 to give greater weighting to flat surfaces
+				splatWeights[1] = 1.0f - Mathf.Clamp01(steepness*steepness/(terrData.heightmapHeight/5.0f));
+
+				// Texture[3] increases with height but only on surfaces facing positive Z axis 
+				splatWeights[2] = height * Mathf.Clamp01(normal.z);
+
+				// Sum of all textures weights must add to 1, so calculate normalization factor from sum of weights
+				float z = Sum(splatWeights);
+
+				// Loop through each terrain texture
+				for(int k = 0; k<terrData.alphamapLayers; k++){
+
+					// Normalize so that sum of all texture weights = 1
+					splatWeights[k] /= z;
+
+					// Assign this point to the splatmap array
+					splatmapData[i, j, k] = splatWeights[k];
+				}
+			}
+		}
+		// Finally assign the new splatmap to the terrainData:
+		terrData.SetAlphamaps(x, y, splatmapData);
+	}
+
+	float Sum(float[] farr) {
+		float f = 0.0f;
+		for (int i = 0; i < farr.Length; ++i) {
+			f += farr [i];
+		}
+		return f;
+	}
+
+
+
+
 }
