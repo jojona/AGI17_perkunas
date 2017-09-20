@@ -77,6 +77,7 @@ public class GrabableTerrain : Grabable {
 				//Debug.Log ("set to: " + data [0, 0]);
 
 				terrain.terrainData.SetHeights(absX - maxDist, absY - maxDist, data);
+				updateTextureInSquare (absX - maxDist, absY - maxDist, maxDist);
 			}
 		}
 	}
