@@ -8,6 +8,9 @@ public class GrabableTerrain : Grabable {
 	public float effectRadius = 1.0f;
 	private float resolutionPerUnit;
 	public Terrain terrain;
+	private int cubeWidth;
+
+	private float[,] precalcWeigths;
 	// Use this for initialization
 	void Start () {
 		if (terrain == null) {
@@ -18,6 +21,18 @@ public class GrabableTerrain : Grabable {
 			return;
 		}
 		resolutionPerUnit = ((float)terrain.terrainData.heightmapResolution) / 10.0f;//((float)terrain.terrainData.heightmapWidth);
+		cubeWidth = (int)(effectRadius * resolutionPerUnit);
+		precalcWeigths = new float[cubeWidth, cubeWidth];
+		int maxDist = cubeWidth / 2;
+		//we precaclulate the weights of each tile in the terrain mnodification radius, so we don't have to do so at runtime
+		for (int x = 0; x < cubeWidth; ++x) {
+			for (int y = 0; y < cubeWidth; ++y) {
+				float dist = (x - (maxDist))*(x-(maxDist));
+				dist += (y - (maxDist)) * (y - (maxDist));
+				dist = Mathf.Sqrt (dist);
+				precalcWeigths [x, y] = (float)Mathf.Cos ((float)((dist / (float)maxDist) * 0.5 * Mathf.PI));
+			}
+		}
 	}
 
 
@@ -37,7 +52,6 @@ public class GrabableTerrain : Grabable {
 			float newHeight = manipRelHeight / 3.0f;
 			newHeight = newHeight > 1 ? 1 : newHeight;
 			newHeight = newHeight < 0 ? 0 : newHeight;
-			int cubeWidth = (int)(effectRadius * resolutionPerUnit);
 			//Debug.Log ("relative position: "+ manipRelPos + ", relative height: " + manipRelHeight + ", relative height abs: " + relHeightAbs);
 			//Debug.Log ("absX: "+ absX + ", absY: " + absY);
 			//Debug.Log ("resu: "+ resolutionPerUnit);
@@ -49,35 +63,34 @@ public class GrabableTerrain : Grabable {
 				//Debug.Log("terrain height1: " + data[maxDist,maxDist]);
 				for (int x = 0; x < cubeWidth; ++x) {
 					for (int y = 0; y < cubeWidth; ++y) {
-						float dist = (x - (maxDist))*(x-(maxDist));
-						dist += (y - (maxDist)) * (y - (maxDist));
-						dist = Mathf.Sqrt (dist);
-						data [x, y] = max(newHeight * (float)Mathf.Cos ((float)((dist / (float)maxDist) * 0.5 * Mathf.PI)), data [x, y]);
-						data [x, y] = data [x, y] < 0.0f ? 0.0f : data [x, y];
-						data [x, y] = data [x, y] > 1.0f ? 1.0f : data [x, y];
+						data [x, y] = max(newHeight * precalcWeigths [x, y], data [x, y]);
+						//data [x, y] = data [x, y] < 0.0f ? 0.0f : data [x, y];//I don't think we deen to clamp the values
+						//data [x, y] = data [x, y] > 1.0f ? 1.0f : data [x, y];
 					}
 				}
 				//Debug.Log ("set to: " + data [maxDist, maxDist]);
 
 				terrain.terrainData.SetHeights(absX - maxDist, absY - maxDist, data);
+				updateTextureInSquare (	((float)(absX - maxDist)) / (float)terrain.terrainData.heightmapWidth,
+										((float)(absY - maxDist)) / (float)terrain.terrainData.heightmapWidth,
+										((float)cubeWidth) / (float)terrain.terrainData.heightmapWidth);
 			} else if(newHeight + offset < terrain.terrainData.GetHeight(absX, absY)/3.0f){
 				newHeight += offset;
 				float[,] data = terrain.terrainData.GetHeights (absX - maxDist, absY - maxDist, cubeWidth, cubeWidth);
 				//Debug.Log("terrain height2: " + data[0,0]);
 				for (int x = 0; x < cubeWidth; ++x) {
 					for (int y = 0; y < cubeWidth; ++y) {
-						float dist = (x - (maxDist))*(x-(maxDist));
-						dist += (y - (maxDist)) * (y - (maxDist));
-						dist = Mathf.Sqrt (dist);
-						data [x, y] = min(1.0f - max((1.0f-newHeight) * (float)Mathf.Cos ((float)((dist / (float)maxDist) * 0.5 * Mathf.PI)),0.0f), data [x, y]);
-						data [x, y] = data [x, y] < 0.0f ? 0.0f : data [x, y];
-						data [x, y] = data [x, y] > 1.0f ? 1.0f : data [x, y];
+						data [x, y] = min(1.0f - max((1.0f-newHeight) * precalcWeigths [x, y],0.0f), data [x, y]);
+						//data [x, y] = data [x, y] < 0.0f ? 0.0f : data [x, y];
+						//data [x, y] = data [x, y] > 1.0f ? 1.0f : data [x, y];
 					}
 				}
 				//Debug.Log ("set to: " + data [0, 0]);
 
 				terrain.terrainData.SetHeights(absX - maxDist, absY - maxDist, data);
-				updateTextureInSquare (absX - maxDist, absY - maxDist, maxDist);
+				updateTextureInSquare (	((float)(absX - maxDist)) / (float)terrain.terrainData.heightmapWidth,
+										((float)(absY - maxDist)) / (float)terrain.terrainData.heightmapWidth,
+										((float)cubeWidth) / (float)terrain.terrainData.heightmapWidth);
 			}
 		}
 	}
@@ -91,43 +104,53 @@ public class GrabableTerrain : Grabable {
 		//we do nothing special with the release speeds here
 	}
 
-	public void updateTextureInSquare(int x, int y, int width) {
+	public void updateTextureInSquare(float x_01, float y_01, float width_01) {
+		
 		TerrainData terrData = terrain.terrainData;
-		int xMax = x + width > terrData.alphamapWidth ? terrData.heightmapWidth : x + width;
-		int yMax = y + width > terrData.alphamapHeight ? terrData.heightmapWidth : y + width;
+		int x = (int)(x_01 * terrData.alphamapWidth);
+		int y = (int)(y_01 * terrData.alphamapHeight);
+		int xMax = (int)((x_01 + width_01) * terrData.alphamapWidth);
+		int yMax = (int)((y_01 + width_01) * terrData.alphamapHeight);
+
+		//clamp to sane values
+		xMax = xMax > terrData.alphamapWidth ? terrData.alphamapWidth : xMax;
+		yMax = yMax > terrData.alphamapHeight ? terrData.alphamapHeight : yMax;
+		x = x < 0 ? 0 : x;
+		y = y < 0 ? 0 : y;
 
 
 		float[, ,] splatmapData = new float[xMax - x, yMax - y, terrData.alphamapLayers];
+		float[] splatWeights = new float[terrData.alphamapLayers];//this is declared outside loop to reduce memory allocation in loop
+
 		for (int i = x; i < xMax; ++i) {
 			for (int j = y; j < yMax; ++j) {
 				//code from here copy-pasted from tutorial, make sure to update it as apropriate
-				float y_01 = (float)y/(float)terrData.alphamapHeight;
-				float x_01 = (float)x/(float)terrData.alphamapWidth;
+				//variable reuse lol
+				y_01 = (float)j/(float)terrData.alphamapHeight;
+				x_01 = (float)i/(float)terrData.alphamapWidth;
 
 				// Sample the height at this location (note GetHeight expects int coordinates corresponding to locations in the heightmap array)
 				float height = terrData.GetHeight(Mathf.RoundToInt(y_01 * terrData.heightmapHeight),Mathf.RoundToInt(x_01 * terrData.heightmapWidth) );
 
 				// Calculate the normal of the terrain (note this is in normalised coordinates relative to the overall terrain dimensions)
-				Vector3 normal = terrData.GetInterpolatedNormal(y_01,x_01);
+				//Vector3 normal = terrData.GetInterpolatedNormal(y_01,x_01);
 
 				// Calculate the steepness of the terrain
 				float steepness = terrData.GetSteepness(y_01,x_01);
 
-				// Setup an array to record the mix of texture weights at this point
-				float[] splatWeights = new float[terrData.alphamapLayers];
-
 				// CHANGE THE RULES BELOW TO SET THE WEIGHTS OF EACH TEXTURE ON WHATEVER RULES YOU WANT
 
+				steepness = steepness / 90.0f;
 				// Texture[0] has constant influence
-				splatWeights[0] = 0.5f;
+				splatWeights[0] = (1.0f- steepness)*(3.0f - height)/3.0f;
 
 				// Texture[2] stronger on flatter terrain
 				// Note "steepness" is unbounded, so we "normalise" it by dividing by the extent of heightmap height and scale factor
 				// Subtract result from 1.0 to give greater weighting to flat surfaces
-				splatWeights[1] = 1.0f - Mathf.Clamp01(steepness*steepness/(terrData.heightmapHeight/5.0f));
+				splatWeights[1] = steepness;
 
 				// Texture[3] increases with height but only on surfaces facing positive Z axis 
-				splatWeights[2] = height * Mathf.Clamp01(normal.z);
+				splatWeights[2] = (1.0f- steepness)*height/3.0f;
 
 				// Sum of all textures weights must add to 1, so calculate normalization factor from sum of weights
 				float z = Sum(splatWeights);
@@ -139,7 +162,7 @@ public class GrabableTerrain : Grabable {
 					splatWeights[k] /= z;
 
 					// Assign this point to the splatmap array
-					splatmapData[i, j, k] = splatWeights[k];
+					splatmapData[i-x, j-y, k] = splatWeights[k];
 				}
 			}
 		}
