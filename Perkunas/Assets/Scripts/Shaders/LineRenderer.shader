@@ -4,8 +4,6 @@ Shader "Unlit/LineRenderer"
 {
     Properties
     {
-        // we have removed support for texture tiling/offset,
-        // so make them not be displayed in material inspector
         [NoScaleOffset] _MainTex ("Texture", 2D) = "white" {}
 		LengthOfVertex("Length from vertex", Range(0,1)) = 0.3
 		ContourColor("Color of contour", Color) = (0,0,0,1)
@@ -62,6 +60,7 @@ Shader "Unlit/LineRenderer"
 
 			ZWrite On		//1a)
 			Cull Back		//1a)
+			
         }
 
 
@@ -154,7 +153,9 @@ Shader "Unlit/LineRenderer"
 				o.vertex = UnityObjectToClipPos(v.vertex);
 				// just pass the texture coordinate
 				o.uv = v.uv;
-				o.vertex.xyz += v.normal * LengthOfVertex;
+				//o.vertex.xyz += v.normal * LengthOfVertex;
+
+				o.vertex.z +=  LengthOfVertex / length(o.vertex); //Divide by length
 				return o;
 			}
 
@@ -170,8 +171,8 @@ Shader "Unlit/LineRenderer"
 			}
 				ENDCG
 
-				ZTest LEqual 		//1a)
-				Cull Front		//1a)
+				ZTest LEqual 		//1c)
+				Cull Front		//1c)
 			}
     }
 }
