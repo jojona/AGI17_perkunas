@@ -56,7 +56,7 @@ ModelImporter:
     400046: LeafTree
     400048: //RootNode
     4300000: LeafTree
-    7400000: Armature|Grow
+    7400000: Grow
     7400002: Armature|Grow.001
     7400004: Armature|WindHigh
     9500000: //RootNode
@@ -86,7 +86,7 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: Armature|Grow
+      name: Grow
       takeName: Armature|Grow
       firstFrame: 1
       lastFrame: 99
