@@ -261,6 +261,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4377263410844212}
   - component: {fileID: 95859458656169486}
+  - component: {fileID: 114509200710791154}
+  - component: {fileID: 114583099113806242}
   m_Layer: 0
   m_Name: LeafTree
   m_TagString: Untagged
@@ -754,6 +756,28 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
+--- !u!114 &114509200710791154
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1641321120707324}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 604a730405843e147a04eead2bef573b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &114583099113806242
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1641321120707324}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b530c3e7b657eff439df40dfec31c0d8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!137 &137563344484075616
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1
