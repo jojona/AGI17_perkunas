@@ -121,36 +121,47 @@ public class GrabableTerrain : Grabable {
 
 		float[, ,] splatmapData = new float[xMax - x, yMax - y, terrData.alphamapLayers];
 		float[] splatWeights = new float[terrData.alphamapLayers];//this is declared outside loop to reduce memory allocation in loop
+		float deltaX = 1.0f / (float)terrData.alphamapWidth;
+		float deltaY = 1.0f / (float)terrData.alphamapHeight;
 
-		for (int i = x; i < xMax; ++i) {
-			for (int j = y; j < yMax; ++j) {
+
+		float maxh = 0.0f;
+		//x_01 = (float)x/(float)terrData.alphamapWidth;
+		float ystore = y_01;
+		for (int i = x; i < xMax; ++i, x_01 += deltaX) {
+			y_01 = ystore;
+			for (int j = y; j < yMax; ++j, y_01 += deltaY) {
 				//code from here copy-pasted from tutorial, make sure to update it as apropriate
 				//variable reuse lol
-				y_01 = (float)j/(float)terrData.alphamapHeight;
-				x_01 = (float)i/(float)terrData.alphamapWidth;
+				//y_01 = (float)j/(float)terrData.alphamapHeight;
+				//x_01 = (float)i/(float)terrData.alphamapWidth;
 
 				// Sample the height at this location (note GetHeight expects int coordinates corresponding to locations in the heightmap array)
-				float height = terrData.GetHeight(Mathf.RoundToInt(y_01 * terrData.heightmapHeight),Mathf.RoundToInt(x_01 * terrData.heightmapWidth) );
-
+				float height = terrData.GetHeight(i,j ) / terrData.size.y;
+				if (height > maxh)
+					maxh = height;
 				// Calculate the normal of the terrain (note this is in normalised coordinates relative to the overall terrain dimensions)
 				//Vector3 normal = terrData.GetInterpolatedNormal(y_01,x_01);
 
 				// Calculate the steepness of the terrain
-				float steepness = terrData.GetSteepness(y_01,x_01);
+				float steepness = terrData.GetSteepness(x_01,y_01);
 
-				// CHANGE THE RULES BELOW TO SET THE WEIGHTS OF EACH TEXTURE ON WHATEVER RULES YOU WANT
 
 				steepness = steepness / 90.0f;
-				// Texture[0] has constant influence
-				splatWeights[0] = (1.0f- steepness)*(3.0f - height)/3.0f;
 
-				// Texture[2] stronger on flatter terrain
-				// Note "steepness" is unbounded, so we "normalise" it by dividing by the extent of heightmap height and scale factor
-				// Subtract result from 1.0 to give greater weighting to flat surfaces
+				//turn steepness into something useful
+				steepness = 1.0f - steepness;
+				steepness *= steepness;
+				steepness = 1.0f - steepness;
+
+
+				splatWeights[0] = (1.0f- steepness)*(1.0f - height);
+
+
 				splatWeights[1] = steepness;
 
-				// Texture[3] increases with height but only on surfaces facing positive Z axis 
-				splatWeights[2] = (1.0f- steepness)*height/3.0f;
+
+				splatWeights[2] = (1.0f- steepness)*height;
 
 				// Sum of all textures weights must add to 1, so calculate normalization factor from sum of weights
 				float z = Sum(splatWeights);
@@ -166,6 +177,7 @@ public class GrabableTerrain : Grabable {
 				}
 			}
 		}
+		Debug.Log ("max height was: " + maxh);
 		// Finally assign the new splatmap to the terrainData:
 		terrData.SetAlphamaps(x, y, splatmapData);
 	}

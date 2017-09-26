@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Grabable : MonoBehaviour {
-	private GameObject attachedTo = null;
+	private GameObject attachedTo = null;//this is an issue. We need to recognise multiple grabbers.
 		
 
 	// Use this for initialization
@@ -24,7 +24,7 @@ public class Grabable : MonoBehaviour {
 	}
 
 	public virtual void detach(Vector3 vel, Vector3 ang) {
-		if (attachedTo != null && attachedTo.GetComponent<FixedJoint>())
+		if (attachedTo != null && attachedTo.GetComponent<FixedJoint>() != null)
 			{
 			// 2
 			attachedTo.GetComponent<FixedJoint>().connectedBody = null;

@@ -709,7 +709,7 @@ MonoBehaviour:
   velocity: {x: 0, y: 1, z: 0}
   timeTilMove: 2
   timeTilGrab: 3
-  timeTilRelease: 8
+  timeTilRelease: 20
   timeTilStop: 10
   releaseSpeed: {x: 0, y: 0, z: 0}
   releaseAngularVelocity: {x: 0, y: 0, z: 0}
