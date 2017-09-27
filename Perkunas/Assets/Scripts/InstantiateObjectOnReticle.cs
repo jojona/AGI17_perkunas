@@ -34,6 +34,9 @@ public class InstantiateObjectOnReticle: LaserPointer
         vec.y = 1; // TODO based on asset size
         Quaternion quat = new Quaternion();
 
-		Instantiate(spawnAsset, vec, quat);
+		GameObject go = Instantiate(spawnAsset, vec, quat);
+        go.tag = "Seed";
+        Animator ani = go.GetComponent<Animator>();
+        ani.SetFloat("mySpeed", 0);
     }
 }

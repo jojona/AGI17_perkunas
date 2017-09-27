@@ -14,11 +14,14 @@ public class ShakeCloud : MonoBehaviour {
     private GameObject[] trees;
     public Renderer rend;
     private float shakeMagnitude = 10;
+    private Vector3 actualVelocity;
+    private Vector3 previousPosition;
 
     void Start()
     {
         timer = -1; //so we can shake right away
         rb = GetComponent<Rigidbody>();
+        previousPosition = rb.position;
         rain = GetComponentInChildren<ParticleSystem>();
         rain.Stop();
         rend = GetComponent<Renderer>();
@@ -34,7 +37,9 @@ public class ShakeCloud : MonoBehaviour {
 
     // Update is called once per frame
     void Update () {
-		if (rb.velocity.magnitude >= shakeMagnitude && !isShaken && (Time.time - timer >= 1))
+        //TODO : Only check when it's grabbed
+        actualVelocity = (rb.position - previousPosition)/Time.deltaTime;
+		if (actualVelocity.magnitude >= shakeMagnitude && !isShaken && (Time.time - timer >= 1))
         {
             timer = Time.time;
             isShaken = true;
@@ -50,7 +55,7 @@ public class ShakeCloud : MonoBehaviour {
                 rend.material.color = Color.white;
             }
         }
-        if (rb.velocity.magnitude < shakeMagnitude && (Time.time - timer >= 1))
+        if (actualVelocity.magnitude < shakeMagnitude && (Time.time - timer >= 1))
             isShaken = false;
 
         if (isRaining)
@@ -60,10 +65,12 @@ public class ShakeCloud : MonoBehaviour {
             {
                 if (Math.Abs(obj.transform.position.x - transform.position.x) < 2 && Math.Abs(obj.transform.position.z - transform.position.z) < 2)
                 {
-                    //Start Animation INSTEAD LUL 
+                    Animator ani = obj.GetComponent<Animator>();
+                    ani.SetFloat("mySpeed", 1);
                     obj.tag = "Grown";
                 }
             }
         }
+        previousPosition = rb.position;
     }
 }
