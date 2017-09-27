@@ -5,7 +5,7 @@ using UnityEngine;
 public class GrabableTerrain : Grabable {
 	GameObject manipulator = null;
 
-	public float effectRadius = 1.0f;
+	public float effectRadius = 4.0f;
 	private float resolutionPerUnit;
 	public Terrain terrain;
 	private int cubeWidth;
@@ -36,8 +36,20 @@ public class GrabableTerrain : Grabable {
 			}
 		}
 
+		//create very simple "standard" terrain
+		float[,] terr = new float[terrain.terrainData.heightmapWidth, terrain.terrainData.heightmapHeight];
+
+		maxDist = terrain.terrainData.heightmapWidth / 2;
+		for (int x = 0; x < terrain.terrainData.heightmapWidth; ++x) {
+			for (int y = 0; y < terrain.terrainData.heightmapHeight; ++y) {
+				float dist = (x - (maxDist))*(x-(maxDist));
+				dist += (y - (maxDist)) * (y - (maxDist));
+				dist = Mathf.Sqrt (dist);
+				terr [x, y] = (float)Mathf.Cos ((float)((dist / (float)maxDist) * 0.5 * Mathf.PI))*(1.0f/terrainMaxHeight);
+			}
+		}
 		// Flatten the terrain
-		terrain.terrainData.SetHeights (0, 0, new float[terrain.terrainData.heightmapWidth, terrain.terrainData.heightmapHeight]);
+		terrain.terrainData.SetHeights (0, 0, terr);
 
 		updateTextureInSquare (0.0f, 0.0f, 1.0f);
 	}
