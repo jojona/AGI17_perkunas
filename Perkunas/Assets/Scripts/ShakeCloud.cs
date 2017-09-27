@@ -13,7 +13,8 @@ public class ShakeCloud : MonoBehaviour {
     private float period = 1;
     private GameObject[] trees;
     public Renderer rend;
-    private float shakeMagnitude = 10;
+    private float shakeMagnitudeMax = 1000;
+    private float shakeMagnitudeMin = 10;
     private Vector3 actualVelocity;
     private Vector3 previousPosition;
 
@@ -39,7 +40,7 @@ public class ShakeCloud : MonoBehaviour {
     void Update () {
         //TODO : Only check when it's grabbed
         actualVelocity = (rb.position - previousPosition)/Time.deltaTime;
-		if (actualVelocity.magnitude >= shakeMagnitude && !isShaken && (Time.time - timer >= 1))
+		if (actualVelocity.magnitude >= shakeMagnitudeMin && actualVelocity.magnitude < shakeMagnitudeMax  && !isShaken && (Time.time - timer >= 1))
         {
             timer = Time.time;
             isShaken = true;
@@ -55,7 +56,7 @@ public class ShakeCloud : MonoBehaviour {
                 rend.material.color = Color.white;
             }
         }
-        if (actualVelocity.magnitude < shakeMagnitude && (Time.time - timer >= 1))
+        if (actualVelocity.magnitude < shakeMagnitudeMin && (Time.time - timer >= 1))
             isShaken = false;
 
         if (isRaining)
@@ -66,7 +67,7 @@ public class ShakeCloud : MonoBehaviour {
                 if (Math.Abs(obj.transform.position.x - transform.position.x) < 2 && Math.Abs(obj.transform.position.z - transform.position.z) < 2)
                 {
                     Animator ani = obj.GetComponent<Animator>();
-                    ani.SetFloat("mySpeed", 1);
+                    ani.SetFloat("mySpeed", 0.7);
                     obj.tag = "Grown";
                 }
             }

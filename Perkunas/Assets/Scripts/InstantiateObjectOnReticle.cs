@@ -31,7 +31,7 @@ public class InstantiateObjectOnReticle: LaserPointer
     private void SpawnTree() {
         shouldSpawnTree = false;
         Vector3 vec = hitPoint;
-        vec.y = 1; // TODO based on asset size
+        vec.y = 0; // TODO based on asset size
         Quaternion quat = new Quaternion();
 
 		GameObject go = Instantiate(spawnAsset, vec, quat);
