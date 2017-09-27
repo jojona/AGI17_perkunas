@@ -33,6 +33,8 @@ public class GrabableTerrain : Grabable {
 				precalcWeigths [x, y] = (float)Mathf.Cos ((float)((dist / (float)maxDist) * 0.5 * Mathf.PI));
 			}
 		}
+
+		updateTextureInSquare (0.0f, 0.0f, 1.0f);
 	}
 
 
@@ -119,7 +121,7 @@ public class GrabableTerrain : Grabable {
 		y = y < 0 ? 0 : y;
 
 
-		float[, ,] splatmapData = new float[xMax - x, yMax - y, terrData.alphamapLayers];
+		float[, ,] splatmapData = new float[ yMax - y, xMax - x,terrData.alphamapLayers];
 		float[] splatWeights = new float[terrData.alphamapLayers];//this is declared outside loop to reduce memory allocation in loop
 		float deltaX = 1.0f / (float)terrData.alphamapWidth;
 		float deltaY = 1.0f / (float)terrData.alphamapHeight;
@@ -163,6 +165,8 @@ public class GrabableTerrain : Grabable {
 
 				splatWeights[2] = (1.0f- steepness)*height;
 
+				splatWeights [3] = 0.0f;
+
 				// Sum of all textures weights must add to 1, so calculate normalization factor from sum of weights
 				float z = Sum(splatWeights);
 
@@ -173,11 +177,12 @@ public class GrabableTerrain : Grabable {
 					splatWeights[k] /= z;
 
 					// Assign this point to the splatmap array
-					splatmapData[i-x, j-y, k] = splatWeights[k];
+					//splatmapData[i-x, j-y, k] = splatWeights[k];
+					splatmapData[ j-y, i-x,k] = splatWeights[k];
 				}
 			}
 		}
-		Debug.Log ("max height was: " + maxh);
+		// Debug.Log ("max height was: " + maxh);
 		// Finally assign the new splatmap to the terrainData:
 		terrData.SetAlphamaps(x, y, splatmapData);
 	}
