@@ -20,7 +20,6 @@ public class Tree : MonoBehaviour {
 
 		float y = terrain.terrainData.GetHeight ((int)heightmapPosX, (int)heightmapPosZ);
 		transform.Translate (new Vector3(transform.position.x, y, transform.position.z)- transform.position);
-		Debug.Log (y + " " + heightmapPosX + " " + heightmapPosZ);
 
 	}
 	
@@ -28,9 +27,7 @@ public class Tree : MonoBehaviour {
 	void Update () {
 		// Update y - position based on terrain
 		float y = terrain.terrainData.GetHeight ((int)heightmapPosX, (int)heightmapPosZ);
-		//transform.position.y = y;
 		transform.Translate ( new Vector3(transform.position.x, y, transform.position.z) -transform.position);
-		Debug.Log (y + " " + heightmapPosX + " " + heightmapPosZ);
 
 	}
 }
