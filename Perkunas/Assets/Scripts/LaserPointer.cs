@@ -17,6 +17,7 @@ public abstract class LaserPointer : MonoBehaviour {
 	protected Vector3 hitPoint;
 	public LayerMask teleportMask;
 
+	public int index;
 
 	protected GameObject reticle;
 
@@ -66,4 +67,6 @@ public abstract class LaserPointer : MonoBehaviour {
 
 	public abstract void holdDown();
 	public abstract void release();
+
+	public abstract void increaseIndex();
 }
