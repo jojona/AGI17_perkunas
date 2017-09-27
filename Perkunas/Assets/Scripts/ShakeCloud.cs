@@ -1,6 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
+using System;
 
 public class ShakeCloud : MonoBehaviour {
 
@@ -13,6 +12,8 @@ public class ShakeCloud : MonoBehaviour {
     private float nextActionTime = 2;
     private float period = 1;
     private GameObject[] trees;
+    public Renderer rend;
+    private float shakeMagnitude = 10;
 
     void Start()
     {
@@ -20,6 +21,7 @@ public class ShakeCloud : MonoBehaviour {
         rb = GetComponent<Rigidbody>();
         rain = GetComponentInChildren<ParticleSystem>();
         rain.Stop();
+        rend = GetComponent<Renderer>();
     }
 
     void GrowATree()
@@ -32,24 +34,36 @@ public class ShakeCloud : MonoBehaviour {
 
     // Update is called once per frame
     void Update () {
-		if (rb.velocity.magnitude >= 2 && !isShaken && (Time.time - timer >= 1))
+		if (rb.velocity.magnitude >= shakeMagnitude && !isShaken && (Time.time - timer >= 1))
         {
             timer = Time.time;
             isShaken = true;
             isRaining = !isRaining;
             if (isRaining)
+            {
                 rain.Play();
+                rend.material.color = Color.gray;
+            }
             else
+            {
                 rain.Stop();
+                rend.material.color = Color.white;
+            }
         }
-        if (rb.velocity.magnitude < 2 && (Time.time - timer >= 1))
+        if (rb.velocity.magnitude < shakeMagnitude && (Time.time - timer >= 1))
             isShaken = false;
 
-        if (Time.time > nextActionTime && isRaining)
+        if (isRaining)
         {
-            trees = GameObject.FindGameObjectsWithTag("TreePrefab");
-            nextActionTime += period;
-            GrowATree();
+            trees = GameObject.FindGameObjectsWithTag("Seed");
+            foreach (GameObject obj in trees)
+            {
+                if (Math.Abs(obj.transform.position.x - transform.position.x) < 2 && Math.Abs(obj.transform.position.z - transform.position.z) < 2)
+                {
+                    //Start Animation INSTEAD LUL 
+                    obj.tag = "Grown";
+                }
+            }
         }
     }
 }
