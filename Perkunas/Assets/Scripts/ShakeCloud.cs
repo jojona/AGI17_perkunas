@@ -3,8 +3,10 @@ using System;
 
 public class ShakeCloud : MonoBehaviour {
 
+	public bool startWithRain = false;
+
     private bool isRaining = false;
-    private bool isShaken = false;
+	private bool isShaken = false;
 
     private Rigidbody rb;
     private ParticleSystem rain;
@@ -24,8 +26,16 @@ public class ShakeCloud : MonoBehaviour {
         rb = GetComponent<Rigidbody>();
         previousPosition = rb.position;
         rain = GetComponentInChildren<ParticleSystem>();
-        rain.Stop();
-        rend = GetComponent<Renderer>();
+		rend = GetComponent<Renderer>();
+
+		if (!startWithRain) {
+			rain.Stop ();
+		} else {
+			rend.material.color = Color.gray;
+			isRaining = true;
+		}
+        
+        
     }
 
     void GrowATree()
@@ -67,7 +77,7 @@ public class ShakeCloud : MonoBehaviour {
                 if (Math.Abs(obj.transform.position.x - transform.position.x) < 2 && Math.Abs(obj.transform.position.z - transform.position.z) < 2)
                 {
                     Animator ani = obj.GetComponent<Animator>();
-                    ani.SetFloat("mySpeed", 0.7);
+                    ani.SetFloat("mySpeed", 0.7f);
                     obj.tag = "Grown";
                 }
             }

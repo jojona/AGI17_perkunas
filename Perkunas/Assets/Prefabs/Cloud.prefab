@@ -22,6 +22,10 @@ GameObject:
   - component: {fileID: 33876386210508890}
   - component: {fileID: 136720360068201832}
   - component: {fileID: 23007576100845156}
+  - component: {fileID: 54645893520557802}
+  - component: {fileID: 114577585119447148}
+  - component: {fileID: 114485896334192162}
+  - component: {fileID: 114454871474173048}
   m_Layer: 0
   m_Name: Cloud
   m_TagString: Untagged
@@ -52,27 +56,27 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1056260128894290}
-  m_LocalRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
-  m_LocalPosition: {x: 2, y: 5, z: 5.84}
-  m_LocalScale: {x: 1, y: 2, z: 3}
+  m_LocalRotation: {x: -0.5, y: 0.5, z: 0.5, w: 0.5}
+  m_LocalPosition: {x: 24, y: 5.5, z: 20.2}
+  m_LocalScale: {x: 30, y: 30, z: 30}
   m_Children:
   - {fileID: 4873756387191086}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90}
+  m_LocalEulerAnglesHint: {x: -90, y: 0, z: 90}
 --- !u!4 &4873756387191086
 Transform:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1780533143955076}
-  m_LocalRotation: {x: 0.7071068, y: 0, z: -0.7071068, w: 0}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.33333337, y: 0.5000002, z: 1}
+  m_LocalRotation: {x: 0, y: -1, z: 0, w: 0}
+  m_LocalPosition: {x: 0.02, y: 0, z: 0}
+  m_LocalScale: {x: 0.1, y: 0.1, z: 1}
   m_Children: []
   m_Father: {fileID: 4437354592950024}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 180, y: 90, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: -180, z: 0}
 --- !u!23 &23007576100845156
 MeshRenderer:
   m_ObjectHideFlags: 1
@@ -111,7 +115,59 @@ MeshFilter:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1056260128894290}
-  m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
+  m_Mesh: {fileID: 4300000, guid: 713fc6f92101e4e4abcb15f22a3b4708, type: 3}
+--- !u!54 &54645893520557802
+Rigidbody:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1056260128894290}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0.25
+  m_AngularDrag: 100
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 112
+  m_CollisionDetection: 0
+--- !u!114 &114454871474173048
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1056260128894290}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8c5364f4c2a5829449c82c0a406d3858, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  height: 5.5
+  forcemultiplier: 1
+--- !u!114 &114485896334192162
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1056260128894290}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8aecba711cc89744696ccff3cc732e2e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  startWithRain: 0
+  rend: {fileID: 0}
+--- !u!114 &114577585119447148
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1056260128894290}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6956936a2a0220c4491cbb20a299a756, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!136 &136720360068201832
 CapsuleCollider:
   m_ObjectHideFlags: 1
@@ -121,10 +177,10 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 0.5
-  m_Height: 2
+  m_Radius: 0.025
+  m_Height: 0.16
   m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Center: {x: 0.02, y: 0.02, z: 0.005}
 --- !u!198 &198665688935016764
 ParticleSystem:
   m_ObjectHideFlags: 1
@@ -184,7 +240,7 @@ ParticleSystem:
   moveWithTransform: 0
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 1
-  randomSeed: 1716722951
+  randomSeed: 2075703509
   InitialModule:
     serializedVersion: 3
     enabled: 1
