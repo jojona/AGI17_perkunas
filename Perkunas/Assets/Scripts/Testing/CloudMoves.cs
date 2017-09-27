@@ -25,10 +25,6 @@ public class CloudMoves : MonoBehaviour {
         if (Time.time >= 3.5)
             rb.velocity = new Vector3(0, 0, 11);
         if (Time.time >= 4)
-            rb.velocity = new Vector3(0, 0, -11);
-        if (Time.time >= 4.5)
             rb.velocity = new Vector3(0, 0, 0);
-        if (Time.time >= 5)
-            rb.velocity = new Vector3(0, 0, 11);
     }
 }
