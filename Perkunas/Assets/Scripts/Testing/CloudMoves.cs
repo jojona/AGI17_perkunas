@@ -14,9 +14,21 @@ public class CloudMoves : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         
-        if (Time.time >= 5)
+        if (Time.time >= 1)
             rb.velocity = new Vector3(0, 0, 0);
-        if (Time.time >= 7)
-            rb.velocity = new Vector3(5, 0, 0);
+        if (Time.time >= 2)
+            rb.velocity = new Vector3(0, 0, -11);
+        if (Time.time >= 2.5)
+            rb.velocity = new Vector3(0, 0, 11);
+        if (Time.time >= 3)
+            rb.velocity = new Vector3(0, 0, -11);
+        if (Time.time >= 3.5)
+            rb.velocity = new Vector3(0, 0, 11);
+        if (Time.time >= 4)
+            rb.velocity = new Vector3(0, 0, -11);
+        if (Time.time >= 4.5)
+            rb.velocity = new Vector3(0, 0, 0);
+        if (Time.time >= 5)
+            rb.velocity = new Vector3(0, 0, 11);
     }
 }
