@@ -50,4 +50,9 @@ public class Teleport : LaserPointer {
 		difference.y = 0;
 		cameraRigTransform.position = hitPoint + difference;
 	}
+
+	public override void increaseIndex ()
+	{
+		index = 0;
+	}
 }
