@@ -65,6 +65,8 @@ public class ViveController : MonoBehaviour {
 		if (Controller.GetPressDown(SteamVR_Controller.ButtonMask.Grip)) {
 			//Debug.Log(gameObject.name + " Grip Press");
 
+			GetComponent<InstantiateObjectOnReticle> ().increaseIndex ();
+
 		}
 		if (Controller.GetPressUp(SteamVR_Controller.ButtonMask.Grip)) {
 			//Debug.Log(gameObject.name + " Grip Release");
