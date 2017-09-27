@@ -9,6 +9,8 @@ public class GrabableTerrain : Grabable {
 	private float resolutionPerUnit;
 	public Terrain terrain;
 	private int cubeWidth;
+	public float terrainWidth = 10.0f;
+	public float terrainMaxHeight = 3.0f;
 
 	private float[,] precalcWeigths;
 	// Use this for initialization
@@ -20,7 +22,7 @@ public class GrabableTerrain : Grabable {
 			Debug.Log ("no terrain in GrabableTerrain");
 			return;
 		}
-		resolutionPerUnit = ((float)terrain.terrainData.heightmapResolution) / 10.0f;//((float)terrain.terrainData.heightmapWidth);
+		resolutionPerUnit = ((float)terrain.terrainData.heightmapResolution) / terrainWidth;//((float)terrain.terrainData.heightmapWidth);
 		cubeWidth = (int)(effectRadius * resolutionPerUnit);
 		precalcWeigths = new float[cubeWidth, cubeWidth];
 		int maxDist = cubeWidth / 2;
@@ -33,6 +35,9 @@ public class GrabableTerrain : Grabable {
 				precalcWeigths [x, y] = (float)Mathf.Cos ((float)((dist / (float)maxDist) * 0.5 * Mathf.PI));
 			}
 		}
+
+		// Flatten the terrain
+		terrain.terrainData.SetHeights (0, 0, new float[terrain.terrainData.heightmapWidth, terrain.terrainData.heightmapHeight]);
 
 		updateTextureInSquare (0.0f, 0.0f, 1.0f);
 	}
@@ -51,15 +56,15 @@ public class GrabableTerrain : Grabable {
 			float manipRelHeight = manipulator.transform.position.y - transform.position.y;
 			int absX = (int)(manipRelPos.x * resolutionPerUnit);
 			int absY = (int)(manipRelPos.y * resolutionPerUnit);
-			float newHeight = manipRelHeight / 3.0f;
+			float newHeight = manipRelHeight / terrainMaxHeight;
 			newHeight = newHeight > 1 ? 1 : newHeight;
 			newHeight = newHeight < 0 ? 0 : newHeight;
 			//Debug.Log ("relative position: "+ manipRelPos + ", relative height: " + manipRelHeight + ", relative height abs: " + relHeightAbs);
 			//Debug.Log ("absX: "+ absX + ", absY: " + absY);
 			//Debug.Log ("resu: "+ resolutionPerUnit);
 			int maxDist = cubeWidth/2;
-			float offset = (float)0.025 / 3.0f;
-			if(newHeight - offset > terrain.terrainData.GetHeight(absX, absY)/3.0f) {
+			float offset = (float)0.025 / terrainMaxHeight;
+			if(newHeight - offset > terrain.terrainData.GetHeight(absX, absY)/terrainMaxHeight) {
 				newHeight -= offset;
 				float[,] data = terrain.terrainData.GetHeights (absX - maxDist, absY - maxDist, cubeWidth, cubeWidth);
 				//Debug.Log("terrain height1: " + data[maxDist,maxDist]);
@@ -76,7 +81,7 @@ public class GrabableTerrain : Grabable {
 				updateTextureInSquare (	((float)(absX - maxDist)) / (float)terrain.terrainData.heightmapWidth,
 										((float)(absY - maxDist)) / (float)terrain.terrainData.heightmapWidth,
 										((float)cubeWidth) / (float)terrain.terrainData.heightmapWidth);
-			} else if(newHeight + offset < terrain.terrainData.GetHeight(absX, absY)/3.0f){
+			} else if(newHeight + offset < terrain.terrainData.GetHeight(absX, absY)/terrainMaxHeight){
 				newHeight += offset;
 				float[,] data = terrain.terrainData.GetHeights (absX - maxDist, absY - maxDist, cubeWidth, cubeWidth);
 				//Debug.Log("terrain height2: " + data[0,0]);
