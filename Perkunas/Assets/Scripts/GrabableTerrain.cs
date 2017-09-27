@@ -36,6 +36,9 @@ public class GrabableTerrain : Grabable {
 			}
 		}
 
+		// Flatten the terrain
+		terrain.terrainData.SetHeights (0, 0, new float[terrain.terrainData.heightmapWidth, terrain.terrainData.heightmapHeight]);
+
 		updateTextureInSquare (0.0f, 0.0f, 1.0f);
 	}
 
