@@ -32,11 +32,10 @@ public class InstantiateObjectOnReticle: LaserPointer
         shouldSpawnTree = false;
         Vector3 vec = hitPoint;
 		vec.y = centerPosY[index];
-        Quaternion quat = new Quaternion();
 
 		GameObject spawnAsset = spawnAssets [index];
 
-		Instantiate(spawnAsset, vec, quat);
+		Instantiate(spawnAsset, vec, spawnAsset.transform.rotation);
     }
 
 	public override void increaseIndex ()
