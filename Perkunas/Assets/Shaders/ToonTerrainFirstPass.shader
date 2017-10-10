@@ -93,7 +93,7 @@ SubShader {
 
     // Surface Shader function
     void surf (Input IN, inout SurfaceOutput o) {
-        fixed4 splat_control = tex2D (_Control, IN.uv_Control);
+        fixed4 splat_control;//= tex2D (_Control, IN.uv_Control);
         fixed3 col;
         fixed4 fixed_transp;//ensure sum of this vector is equal to sums of splat_control
         //col  = splat_control.r * tex2D (_Splat0, IN.uv_Splat0).rgb;
@@ -105,6 +105,13 @@ SubShader {
         //col += splat_control.g * sampleTriplanar(IN.vertex, IN.normal, _Splat1);
         //col += splat_control.b * sampleTriplanar(IN.vertex, IN.normal, _Splat2);
         //col += splat_control.a * sampleTriplanar(IN.vertex, IN.normal, _Splat3);
+        float steepness = 1.0f - abs(IN.normal.y);
+        splat_control.r = (1.0f- steepness)*(1.0f - IN.vertex.y/9.0f);
+		splat_control.g = steepness;
+		splat_control.b = (1.0f- steepness)*IN.vertex.y/9.0f;
+		splat_control.a = 0.0f;
+
+
         fixed3 tmp = sampleTriplanar(IN.vertex, IN.normal, _Splat0);
         fixed_transp.r = advancedBlend(splat_control.r, tmp);
         col = tmp*fixed_transp.r;

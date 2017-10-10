@@ -12,9 +12,9 @@ public class GrabableTerrain : Grabable {
 	public float terrainWidth = 10.0f;
 	public float terrainMaxHeight = 3.0f;
 
-	private int textureFpscounter = 0;
-	private float starttime = 0.0f;
-	private float updatetime = 0.5f;
+	//private int textureFpscounter = 0;
+	//private float starttime = 0.0f;
+	//private float updatetime = 0.5f;
 
 
 	private float[,] precalcWeigths;
@@ -56,7 +56,7 @@ public class GrabableTerrain : Grabable {
 		// Flatten the terrain
 		terrain.terrainData.SetHeights (0, 0, terr);
 
-		updateTextureInSquare (0.0f, 0.0f, 1.0f);
+		//updateTextureInSquare (0.0f, 0.0f, 1.0f);
 	}
 
 
@@ -68,7 +68,7 @@ public class GrabableTerrain : Grabable {
 	}
 	// Update is called once per frame
 	void Update () {
-		textureFpscounter = (textureFpscounter + 1) % 15;
+		//textureFpscounter = (textureFpscounter + 1) % 15;
 
 
 		if (manipulator != null && terrain != null) {
@@ -99,12 +99,12 @@ public class GrabableTerrain : Grabable {
 
 				terrain.terrainData.SetHeights(absX - maxDist, absY - maxDist, data);
 
-				if (Time.time - starttime > updatetime ) {// textureFpscounter == 0) {
+				/*if (Time.time - starttime > updatetime ) {// textureFpscounter == 0) {
 					starttime = Time.time;
 					updateTextureInSquare (((float)(absX - maxDist)) / (float)terrain.terrainData.heightmapWidth,
 						((float)(absY - maxDist)) / (float)terrain.terrainData.heightmapWidth,
 						((float)cubeWidth) / (float)terrain.terrainData.heightmapWidth);
-				}
+				}*/
 			} else if(newHeight + offset < terrain.terrainData.GetHeight(absX, absY)/terrainMaxHeight){
 				newHeight += offset;
 				float[,] data = terrain.terrainData.GetHeights (absX - maxDist, absY - maxDist, cubeWidth, cubeWidth);
@@ -119,19 +119,19 @@ public class GrabableTerrain : Grabable {
 				//Debug.Log ("set to: " + data [0, 0]);
 
 				terrain.terrainData.SetHeights(absX - maxDist, absY - maxDist, data);
-				if (Time.time - starttime > updatetime ) {// textureFpscounter == 0) {
+				/*if (Time.time - starttime > updatetime ) {// textureFpscounter == 0) {
 					starttime = Time.time;
 					updateTextureInSquare (((float)(absX - maxDist)) / (float)terrain.terrainData.heightmapWidth,
 						((float)(absY - maxDist)) / (float)terrain.terrainData.heightmapWidth,
 						((float)cubeWidth) / (float)terrain.terrainData.heightmapWidth);
-				}
+				}*/
 			}
 		}
 	}
 
 	public override void attach(GameObject g) {
 		manipulator = g;
-		starttime = Time.time;
+		//starttime = Time.time;
 	}
 
 	public override void detach(Vector3 a, Vector3 b) {
@@ -140,16 +140,16 @@ public class GrabableTerrain : Grabable {
 		int absX = (int)(manipRelPos.x * resolutionPerUnit);
 		int absY = (int)(manipRelPos.y * resolutionPerUnit);
 		int maxDist = cubeWidth/2;
-		updateTextureInSquare (((float)(absX - maxDist)) / (float)terrain.terrainData.heightmapWidth,
+		/*updateTextureInSquare (((float)(absX - maxDist)) / (float)terrain.terrainData.heightmapWidth,
 			((float)(absY - maxDist)) / (float)terrain.terrainData.heightmapWidth,
-			((float)cubeWidth) / (float)terrain.terrainData.heightmapWidth);
+			((float)cubeWidth) / (float)terrain.terrainData.heightmapWidth);*/
 
 
 
 		manipulator = null;
 		//we do nothing special with the release speeds here
 	}
-
+	/*
 	public void updateTextureInSquare(float x_01, float y_01, float width_01) {
 		TerrainData terrData = terrain.terrainData;
 		int x = (int)(x_01 * terrData.alphamapWidth);
@@ -238,7 +238,7 @@ public class GrabableTerrain : Grabable {
 		return f;
 	}
 
-
+	*/
 
 
 }
