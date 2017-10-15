@@ -86,7 +86,7 @@ SubShader {
    		//until further notice, use terrain brightness as a standin of alpha channel
    		//fixed alpha2 = sqrt((col.r*col.r + col.g*col.g + col.b*col.b)*0.333333)*0.7 + 0.3;//0.55 + 0.45;
    		//fixed alpha2 = (col.r > col.g ? (col.r > col.b ? col.g : col.b) : (col.g > col.b ? col.g : col.b) ) * 0.6 + 0.4;
-   		fixed alpha2 = ((col.r + col.g + col.b)*0.333333)*0.5 + 0.5;
+   		fixed alpha2 = ((col.r + col.g + col.b)*0.333333);//*0.5 + 0.5;
    		return tanh(80*(alpha2+0.05-(1-alpha)*1.1))*0.5 + 0.5;
    	}
 
@@ -112,23 +112,39 @@ SubShader {
 		splat_control.a = 0.0f;
 
 
+        //fixed3 tmp = sampleTriplanar(IN.vertex, IN.normal, _Splat0);
+        //fixed_transp.r = advancedBlend(splat_control.r, tmp);
+        //col = tmp*fixed_transp.r;
+
+        //tmp = sampleTriplanar(IN.vertex, IN.normal, _Splat1);
+        //fixed_transp.g = advancedBlend(splat_control.g, tmp);
+        //col += tmp*fixed_transp.g;
+
+        //tmp = sampleTriplanar(IN.vertex, IN.normal, _Splat2);
+        //fixed_transp.b = advancedBlend(splat_control.b, tmp);
+        //col += tmp*fixed_transp.b;
+
+        //tmp = sampleTriplanar(IN.vertex, IN.normal, _Splat3);
+        //fixed_transp.a = advancedBlend(splat_control.a, tmp);
+        //col += tmp*fixed_transp.a;
+
         fixed3 tmp = sampleTriplanar(IN.vertex, IN.normal, _Splat0);
-        fixed_transp.r = advancedBlend(splat_control.r, tmp);
-        col = tmp*fixed_transp.r;
+        col = tmp;
 
         tmp = sampleTriplanar(IN.vertex, IN.normal, _Splat1);
         fixed_transp.g = advancedBlend(splat_control.g, tmp);
-        col += tmp*fixed_transp.g;
+        col = col * (1.0-fixed_transp.g) + tmp*fixed_transp.g;
 
         tmp = sampleTriplanar(IN.vertex, IN.normal, _Splat2);
         fixed_transp.b = advancedBlend(splat_control.b, tmp);
-        col += tmp*fixed_transp.b;
+        col = col * (1.0-fixed_transp.g) + tmp*fixed_transp.b;
 
         tmp = sampleTriplanar(IN.vertex, IN.normal, _Splat3);
         fixed_transp.a = advancedBlend(splat_control.a, tmp);
-        col += tmp*fixed_transp.a;
+        col = col * (1.0-fixed_transp.g) + tmp*fixed_transp.a;
 
-        o.Albedo = col * ((splat_control.r + splat_control.g + splat_control.b + splat_control.a) / (fixed_transp.r + fixed_transp.g + fixed_transp.b + fixed_transp.a));
+
+        o.Albedo = col;// * ((splat_control.r + splat_control.g + splat_control.b + splat_control.a) / (fixed_transp.r + fixed_transp.g + fixed_transp.b + fixed_transp.a));
         o.Alpha = 0.0;
     }
     ENDCG
