@@ -95,7 +95,7 @@ SubShader {
     void surf (Input IN, inout SurfaceOutput o) {
         fixed4 splat_control;//= tex2D (_Control, IN.uv_Control);
         fixed3 col;
-        fixed4 fixed_transp;//ensure sum of this vector is equal to sums of splat_control
+        fixed fixed_transp;
         //col  = splat_control.r * tex2D (_Splat0, IN.uv_Splat0).rgb;
         //col += splat_control.g * tex2D (_Splat1, IN.uv_Splat0).rgb;
         //col += splat_control.b * tex2D (_Splat2, IN.uv_Splat0).rgb;
@@ -132,16 +132,16 @@ SubShader {
         col = tmp;
 
         tmp = sampleTriplanar(IN.vertex, IN.normal, _Splat1);
-        fixed_transp.g = advancedBlend(splat_control.g, tmp);
-        col = col * (1.0-fixed_transp.g) + tmp*fixed_transp.g;
+        fixed_transp = advancedBlend(splat_control.g, tmp);
+        col = col * (1.0-fixed_transp) + tmp*fixed_transp;
 
         tmp = sampleTriplanar(IN.vertex, IN.normal, _Splat2);
-        fixed_transp.b = advancedBlend(splat_control.b, tmp);
-        col = col * (1.0-fixed_transp.g) + tmp*fixed_transp.b;
+        fixed_transp = advancedBlend(splat_control.b, tmp);
+        col = col * (1.0-fixed_transp) + tmp*fixed_transp;
 
         tmp = sampleTriplanar(IN.vertex, IN.normal, _Splat3);
-        fixed_transp.a = advancedBlend(splat_control.a, tmp);
-        col = col * (1.0-fixed_transp.g) + tmp*fixed_transp.a;
+        fixed_transp = advancedBlend(splat_control.a, tmp);
+        col = col * (1.0-fixed_transp) + tmp*fixed_transp;
 
 
         o.Albedo = col;// * ((splat_control.r + splat_control.g + splat_control.b + splat_control.a) / (fixed_transp.r + fixed_transp.g + fixed_transp.b + fixed_transp.a));
