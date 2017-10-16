@@ -2,9 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Grabable : MonoBehaviour {
-	private GameObject attachedTo = null;//this is an issue. We need to recognise multiple grabbers.
-		
+public class Grabable : MonoBehaviour {	
 
 	// Use this for initialization
 	void Start () {
@@ -20,21 +18,17 @@ public class Grabable : MonoBehaviour {
     		fx.breakTorque = 2000000;
 
 		fx.connectedBody = GetComponent<Rigidbody>();
-		attachedTo = g;
 	}
 
-	public virtual void detach(Vector3 vel, Vector3 ang) {
-		if (attachedTo != null && attachedTo.GetComponent<FixedJoint>() != null)
+	public virtual void detach(GameObject g, Vector3 vel, Vector3 ang) {
+		if (g != null && g.GetComponent<FixedJoint>() != null)
 			{
 			// 2
-			attachedTo.GetComponent<FixedJoint>().connectedBody = null;
-			Destroy(attachedTo.GetComponent<FixedJoint>());
+			g.GetComponent<FixedJoint>().connectedBody = null;
+			Destroy(g.GetComponent<FixedJoint>());
 			// 3
 			GetComponent<Rigidbody>().velocity = vel;
 			GetComponent<Rigidbody>().angularVelocity = ang;
 			}		
-
-		attachedTo = null;
-		
 	}
 }
