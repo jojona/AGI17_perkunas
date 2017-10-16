@@ -19,6 +19,10 @@ public abstract class LaserPointer : MonoBehaviour {
 
 	public int index;
 
+	protected GameObject terrainObject;
+	protected GrabableTerrain grabTerrain;
+	protected Terrain terrain;
+
 	protected GameObject reticle;
 
 	protected SteamVR_Controller.Device Controller
@@ -33,6 +37,10 @@ public abstract class LaserPointer : MonoBehaviour {
 		laserTransform = laser.transform;
 
 		reticle = Instantiate(teleportReticlePrefab);
+
+		terrainObject = GameObject.Find ("Terrain");
+		terrain = terrainObject.GetComponent<Terrain> ();
+		grabTerrain = terrain.GetComponent ("GrabableTerrain") as GrabableTerrain;
 	}
 
 	void Awake()
