@@ -26,7 +26,8 @@ public class Teleport : LaserPointer {
 				float heightmapPosX = hitPoint.x / grabTerrain.terrainWidth * terrain.terrainData.heightmapWidth;
 				float heightmapPosZ = hitPoint.z / grabTerrain.terrainWidth * terrain.terrainData.heightmapWidth;
 				float y = terrain.terrainData.GetHeight ((int)heightmapPosX, (int)heightmapPosZ);
-				reticle.transform.position = hitPoint + teleportReticleOffset + new Vector3(0, y, 0);
+				hitPoint = hitPoint + new Vector3 (0, y, 0);
+				reticle.transform.position = hitPoint + teleportReticleOffset;
 
 				// TODO Cap it to end of map after map scene is created
 				shouldTeleport = true;
