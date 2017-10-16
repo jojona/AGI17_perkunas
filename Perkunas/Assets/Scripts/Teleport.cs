@@ -15,20 +15,21 @@ public class Teleport : LaserPointer {
 			// Do a parabolic curve instead of straigt teleport line
 			float angle = 90f - Vector3.Angle (Vector3.up, transform.forward);
 			if (angle < 90 && angle > 0) {
-				float force = 25f; // TODO distance to end of map
+				float force = 25f;
 
-				float d = force * Mathf.Sin (Mathf.PI*angle/180); // TODO throwinglocation is the foot
+				float d = force * Mathf.Sin (Mathf.PI*angle/180);
 
 				hitPoint = trackedObj.transform.position + d * (transform.forward - Vector3.Dot (transform.forward, Vector3.up) * Vector3.up);
 				hitPoint.y = 0;
 				reticle.SetActive (true);
+
+				float heightmapPosX = hitPoint.x / grabTerrain.terrainWidth * terrain.terrainData.heightmapWidth;
+				float heightmapPosZ = hitPoint.z / grabTerrain.terrainWidth * terrain.terrainData.heightmapWidth;
+				float y = terrain.terrainData.GetHeight ((int)heightmapPosX, (int)heightmapPosZ);
+				hitPoint = hitPoint + new Vector3 (0, y, 0);
 				reticle.transform.position = hitPoint + teleportReticleOffset;
 
-				// TODO Cap it to end of map
-
-				// TODO Draw "Curve laser"
-
-				// TODO if location ok
+				// TODO Cap it to end of map after map scene is created
 				shouldTeleport = true;
 			} else {
 				reticle.SetActive (false);

@@ -19,7 +19,7 @@ public class Gameover : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-		if (Time.time - startTime > 10) {
+		if (Time.time - startTime > 120) {
 			canvas.SetActive (true);
 		}
 
