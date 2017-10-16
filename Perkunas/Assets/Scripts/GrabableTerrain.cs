@@ -134,7 +134,7 @@ public class GrabableTerrain : Grabable {
 		starttime = Time.time;
 	}
 
-	public override void detach(Vector3 a, Vector3 b) {
+	public override void detach(GameObject g, Vector3 a, Vector3 b) {
 		// TODO remove code duplication
 		Vector2 manipRelPos = new Vector2 (manipulator.transform.position.x - transform.position.x, manipulator.transform.position.z- transform.position.z);
 		int absX = (int)(manipRelPos.x * resolutionPerUnit);
