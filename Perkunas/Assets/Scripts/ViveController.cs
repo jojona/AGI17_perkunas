@@ -54,7 +54,7 @@ public class ViveController : MonoBehaviour {
 			//Debug.Log(gameObject.name + "Trigger Release");
 			Grabber g = this.gameObject.GetComponent<Grabber> ();
 			if (g != null) {
-				g.ungrab (Controller.velocity, Controller.angularVelocity);
+				g.ungrab (Controller.velocity*7, Controller.angularVelocity);
 			}
 		}
 		if (Controller.GetHairTrigger ()) {

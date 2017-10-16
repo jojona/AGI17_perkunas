@@ -16,8 +16,8 @@ public class Grabable : MonoBehaviour {
 	}
 	public virtual void attach(GameObject g) {
 		FixedJoint fx = g.gameObject.AddComponent<FixedJoint>();
-    		fx.breakForce = 20000;
-    		fx.breakTorque = 20000;
+    		fx.breakForce = 2000000;
+    		fx.breakTorque = 2000000;
 
 		fx.connectedBody = GetComponent<Rigidbody>();
 		attachedTo = g;
