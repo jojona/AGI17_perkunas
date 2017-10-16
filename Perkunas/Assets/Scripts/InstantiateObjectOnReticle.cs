@@ -5,10 +5,10 @@ using UnityEngine;
 public class InstantiateObjectOnReticle: LaserPointer
 {
    
-	public GameObject spawnAsset;
+	public List<GameObject> spawnAssets;
+	public List<float> centerPosY;
 
     private bool shouldSpawnTree;
-
 
 	public override void holdDown() {
 		if (Raycast ()) {
@@ -31,9 +31,15 @@ public class InstantiateObjectOnReticle: LaserPointer
     private void SpawnTree() {
         shouldSpawnTree = false;
         Vector3 vec = hitPoint;
-        vec.y = 1; // TODO based on asset size
-        Quaternion quat = new Quaternion();
+		vec.y = centerPosY[index];
 
-		Instantiate(spawnAsset, vec, quat);
+		GameObject spawnAsset = spawnAssets [index];
+
+		Instantiate(spawnAsset, vec, spawnAsset.transform.rotation);
     }
+
+	public override void increaseIndex ()
+	{
+		index = (index + 1) % spawnAssets.Count;
+	}
 }

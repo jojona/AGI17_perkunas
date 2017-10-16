@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Tree : MonoBehaviour {
+public class TreeScript : MonoBehaviour {
 
-	public GameObject terrainObject;
+	private GameObject terrainObject;
 	private GrabableTerrain grabTerrain;
 	private Terrain terrain;
 
@@ -12,6 +12,8 @@ public class Tree : MonoBehaviour {
 	private float heightmapPosZ;
 	// Use this for initialization
 	void Start () {
+		terrainObject = GameObject.Find ("Terrain");
+
 		terrain = terrainObject.GetComponent<Terrain> ();
 		grabTerrain = terrain.GetComponent ("GrabableTerrain") as GrabableTerrain;
 
@@ -20,7 +22,7 @@ public class Tree : MonoBehaviour {
 
 		float y = terrain.terrainData.GetHeight ((int)heightmapPosX, (int)heightmapPosZ);
 		transform.Translate (new Vector3(transform.position.x, y, transform.position.z)- transform.position);
-
+	
 	}
 	
 	// Update is called once per frame
