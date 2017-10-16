@@ -7,13 +7,18 @@ public class AnimalBehavior : MonoBehaviour {
     public float speed = 0.05f;
     public float directionChangeInterval = 1;
     public float maxHeadingChange = 30;
+
+    public float lifeTime = 30;
+    public float fadingSpeed = 3;
     
     float heading;
     Vector3 targetRotation;
     Rigidbody rb;
     CharacterController cc;
+    public Renderer rend;
     float sleepTime;
     bool asleep = false;
+    float spawningTime;
 
     void Start()
     {
@@ -23,10 +28,25 @@ public class AnimalBehavior : MonoBehaviour {
         // Set random initial rotation
         heading = Random.Range(0, 360);
         transform.eulerAngles = new Vector3(0, heading, 90);
+        spawningTime = Time.time;
+        rend = GetComponent<Renderer>();
     }
 
     void Update()
     {
+        if (Time.time - spawningTime > lifeTime)
+        {
+            Color col = rend.material.color;
+            col[3] = col[3] - Time.deltaTime / fadingSpeed;
+            if (col[3] < 0)
+            {
+                Destroy(gameObject);
+                return;
+            }
+
+            rend.material.SetColor("_Color", col);
+        }
+
         if (asleep)
         {
             sleepTime -= Time.deltaTime;
@@ -36,11 +56,9 @@ public class AnimalBehavior : MonoBehaviour {
 
         else
         {
-            float odd = Mathf.Min(0.10f / (1.0f / (Time.deltaTime)), 1);
+            float odd = Mathf.Min(0.25f / (1.0f / (Time.deltaTime)), 1);
             float rand = Random.Range(0.0f, 1.0f);
-
-            Debug.Log(odd);
-            Debug.Log(rand);
+            
             if (rand < odd)
             {
                 asleep = true;
