@@ -59,7 +59,7 @@ ModelImporter:
     - serializedVersion: 16
       name: Armature|Grow
       takeName: Armature|Grow
-      firstFrame: 6
+      firstFrame: 60
       lastFrame: 110
       wrapMode: 0
       orientationOffsetY: 0
