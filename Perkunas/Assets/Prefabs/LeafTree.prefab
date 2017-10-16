@@ -264,9 +264,11 @@ GameObject:
   - component: {fileID: 114509200710791154}
   - component: {fileID: 114583099113806242}
   - component: {fileID: 114358177133485262}
+  - component: {fileID: 114084722827040332}
+  - component: {fileID: 114989615340163606}
   m_Layer: 0
   m_Name: LeafTree
-  m_TagString: Seed
+  m_TagString: Grown
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -426,7 +428,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1641321120707324}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -3.39, y: 1.7202966e-17, z: 9.44}
+  m_LocalPosition: {x: 12.5, y: 0.5, z: 21.8}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4405110552365820}
@@ -757,6 +759,18 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
+--- !u!114 &114084722827040332
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1641321120707324}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ca1062a9f7f264f45b3e018b2ad12db4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  apple: {fileID: 1333923631516738, guid: 29a9f5a3707924744b2b4ec3e97aac72, type: 2}
 --- !u!114 &114358177133485262
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -785,9 +799,20 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1641321120707324}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b530c3e7b657eff439df40dfec31c0d8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &114989615340163606
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1641321120707324}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: be4c05652008ef24687e7eaf8091bfbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!137 &137563344484075616
