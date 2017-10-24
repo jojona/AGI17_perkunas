@@ -33,6 +33,7 @@ public class AnimalBehavior : MonoBehaviour {
         transform.eulerAngles = new Vector3(0, heading, 90);
         spawningTime = Time.time;
         rend = GetComponent<Renderer>();
+        //TODO : start animation walk
     }
 
     void Update()
@@ -54,7 +55,10 @@ public class AnimalBehavior : MonoBehaviour {
         {
             sleepTime -= Time.deltaTime;
             if (sleepTime < 0)
+            {
                 asleep = false;
+                //TODO : start animation walking
+            }
         }
 
         else
@@ -66,6 +70,11 @@ public class AnimalBehavior : MonoBehaviour {
             {
                 asleep = true;
                 speed = 0;
+                /*TODO : int animation = Random.Range(0, 2);
+                if (animation == 0)
+                    Start animation eating
+                else
+                    Start animation looking around*/
                 sleepTime = Random.Range(2f, 5f);
             }
             var floor = Mathf.Clamp(heading - maxHeadingChange, 0, 360);

@@ -11,7 +11,7 @@ public class DelayBeforeGrowth : MonoBehaviour {
 	void Start () {
 		anim = GetComponent<Animator> ();
 		// delay = Random.Range (3, 10);
-		delay = Random.Range (3.0f, 10.0f);
+		delay = 0;
 		// startTime = System.DateTime.UtcNow;
 
 

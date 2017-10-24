@@ -3,7 +3,7 @@ using System;
 
 public class ShakeCloud : MonoBehaviour {
 
-    private bool isRaining = false;
+    public bool isRaining = false;
     private bool isShaken = false;
 
     private Rigidbody rb;
