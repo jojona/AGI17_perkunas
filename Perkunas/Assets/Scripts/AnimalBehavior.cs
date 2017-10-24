@@ -3,8 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class AnimalBehavior : MonoBehaviour {
+    
+    public float speed = 0f;
+    public float maxSpeed = 2f;
+    public float acceleratingTime = 0.3f;
 
-    public float speed = 0.05f;
     public float directionChangeInterval = 1;
     public float maxHeadingChange = 30;
 
@@ -62,7 +65,8 @@ public class AnimalBehavior : MonoBehaviour {
             if (rand < odd)
             {
                 asleep = true;
-                sleepTime = Random.Range(2f, 7f);
+                speed = 0;
+                sleepTime = Random.Range(2f, 5f);
             }
             var floor = Mathf.Clamp(heading - maxHeadingChange, 0, 360);
             var ceil = Mathf.Clamp(heading + maxHeadingChange, 0, 360);
@@ -70,6 +74,13 @@ public class AnimalBehavior : MonoBehaviour {
             targetRotation = new Vector3(0, heading, 90);
             transform.eulerAngles = Vector3.Lerp(transform.eulerAngles, targetRotation, Time.deltaTime * directionChangeInterval);
             var forward = transform.TransformDirection(new Vector3(0, 1, 0));
+
+            if (speed < maxSpeed)
+            {
+                speed += maxSpeed*(Time.deltaTime/acceleratingTime);
+            }
+
+
             cc.SimpleMove(speed * forward);
         }
     }
