@@ -69,10 +69,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a5e590099e3d934d8e4eb703d74c3b8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  effectRadius: 1
+  effectRadius: 4
   terrain: {fileID: 218024632920452436}
   terrainWidth: 100
   terrainMaxHeight: 9
+  heightMap: {fileID: 2800000, guid: 5263ddc53d32aca42aa5aba4507e5df8, type: 3}
 --- !u!154 &154907662290568088
 TerrainCollider:
   m_ObjectHideFlags: 1

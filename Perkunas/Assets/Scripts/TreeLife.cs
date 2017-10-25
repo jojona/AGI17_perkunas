@@ -13,6 +13,7 @@ public class TreeLife : MonoBehaviour {
 	bool wet = false;
 	bool rain = false;
 	bool dead = false;
+	bool fire = false;
 
 	public GameObject apple;
 
@@ -21,6 +22,11 @@ public class TreeLife : MonoBehaviour {
 
 	public void raining() {
 		rain = true;
+	}
+
+	public void setFire() {
+		fire = true;
+		timeWithRain = 0; // TODO timeWithFire
 	}
 
 	// Use this for initialization
@@ -54,18 +60,27 @@ public class TreeLife : MonoBehaviour {
 		}
 
 		float t = Time.deltaTime;
-		if (rain) {
+		if (rain || fire) {
 			timeWithRain += t;
 		} else {
 			timeWithRain -= t;
 		}
-			
+
+		// Remove fire
+		if (rain && fire && timeWithRain > 5.0f) { // Fire for 5 seconds and rain
+			GetComponent<setOnFire> ().getChild().SetActive(false);
+			fire = false;
+		}
 
 
-		GameObject model = transform.GetChild (1).gameObject;
+		GameObject model = transform.GetChild (2).gameObject;
 		Renderer rend = model.GetComponent<Renderer>();
-		if (Mathf.Abs (timeWithRain) > timeLimit * 2.0f) {
-			
+		if ((fire && timeWithRain > timeLimit) || Mathf.Abs (timeWithRain) > timeLimit * 2.0f) {
+			// Remove fire
+			GetComponent<setOnFire> ().getChild().SetActive(false);
+			fire = false;
+
+			// Die
 			dead = true;
 			Material[] mats = rend.materials;
 				for(int i = 0; i < mats.Length; i++) {
@@ -75,7 +90,7 @@ public class TreeLife : MonoBehaviour {
 			}
 
 			model.SetActive (false);
-			transform.GetChild (2).gameObject.SetActive (true);
+			transform.GetChild (4).gameObject.SetActive (true);
 		}
 		if (Mathf.Abs (timeWithRain) > timeLimit * 4.0f) {
 			// Die

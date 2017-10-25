@@ -303,6 +303,7 @@ public class LightningBoltScript : MonoBehaviour
 			hit.collider.gameObject.GetComponent<setOnFire> ().getChild().SetActive(true);
 			Debug.Log("On a touche avec "  + gameObject.name  + " l'objet : " +hit.collider.gameObject.name + " a la position : " + hit.point);
 
+			hit.collider.gameObject.GetComponent<TreeLife> ().setFire ();
 		}
 	}
 }
