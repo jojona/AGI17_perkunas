@@ -58,35 +58,36 @@ public class GrabableTerrain : Grabable {
 			// Flatten the terrain
 			terrain.terrainData.SetHeights (0, 0, terr);
 		} else {
-
+           		updateFromHeightMap();
 		}
 
 		updateTextureInSquare (0.0f, 0.0f, 1.0f);
 	}
 
 	private void updateFromHeightMap(){
-		
-		float h = heightMap.height;
-		float w = heightMap.width;		
-		int w2 = terrain.terraindata.heightmapWidth;
-		float[,] terr = new float[w2,w2];		
-		float ratioX = 1.0/(parseFloat(w2)/(w-1));
-		float ratioY = 1.0/(parseFloat(w2)/(h-1));
+	
+		int h = heightMap.height;
+		int w = heightMap.width;
+		int w2 = terrain.terrainData.heightmapWidth;
+		float[,] terr = new float[w2,w2];
+		float ratioX = 1.0f/(((float)w2)/(w-1));
+		float ratioY = 1.0f/(((float)w2)/(h-1));
+		       Color[] mapColors = heightMap.GetPixels();
 		for (int y = 0; y < w2; y++) {
-			float yy = Mathf.Floor(y*ratioY);
-			float y1 = yy*w;
-			float y2 = (yy+1)*w;
+			int yy = (int)Mathf.Floor(y*ratioY);
+			int y1 = yy*w;
+			int y2 = (yy+1)*w;
 			//float yw = y*w2;
 			for (int x = 0; x < w2; x++) {
-				float xx = Mathf.Floor(x*ratioX);
+				int xx = (int)Mathf.Floor(x*ratioX);
 
 				Color bl = mapColors[y1 + xx];
-				Color br = mapColors[y1 + xx+1]; 
+				Color br = mapColors[y1 + xx+1];
 				Color tl = mapColors[y2 + xx];
 				Color tr = mapColors[y2 + xx+1];
 
 				float xLerp = x*ratioX-xx;
-				terr[x,y] = Color.Lerp(Color.Lerp(bl, br, xLerp), Color.Lerp(tl, tr, xLerp), y*ratioY-yy).grayscale;
+				terr[x,y] = Color.Lerp(Color.Lerp(bl, br, xLerp), Color.Lerp(tl, tr, xLerp), y*ratioY-yy).grayscale / 3.0f;
 			}
 		}
 		terrain.terrainData.SetHeights(0,0,terr);
