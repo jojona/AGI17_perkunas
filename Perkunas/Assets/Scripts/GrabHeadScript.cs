@@ -49,8 +49,8 @@ public class GrabHeadScript : Grabable {
 		Debug.Log("Grabbed the head at height " + t.position.y);
    	}
 
-	public override void detach(Vector3 vel, Vector3 ang) {
+	public override void detach(GameObject G, Vector3 vel, Vector3 ang) {
 		g = null;
-       		Debug.Log("released the head at height " + t.position.y);
+       	Debug.Log("released the head at height " + t.position.y);
 	}
 }
