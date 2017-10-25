@@ -80,8 +80,11 @@ public class AnimalBehavior : MonoBehaviour {
 
         else
         {
-            if (!foundApple)
-                apple = GameObject.FindGameObjectWithTag("Apple");
+			if (!foundApple) {
+				GameObject[] apples = GameObject.FindGameObjectsWithTag("Apple");
+				apple = apples[Random.Range(0, apples.Length)];
+			}
+				
             if (apple != null)
             {
                 foundApple = true;
