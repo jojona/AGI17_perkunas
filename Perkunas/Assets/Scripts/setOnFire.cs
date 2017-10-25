@@ -11,13 +11,17 @@ public class setOnFire : MonoBehaviour {
 	void Start () {
 		tagString = "Seed";
 		child = transform.GetChild (3).gameObject;
-		child.SetActive (true);
+		//child.SetActive (true);
 	}
 	
 	// Update is called once per frame
 	public void changeFire() {
-		child.SetActive (false);
+		//child.SetActive (false);
 		child = transform.GetChild (0).gameObject;
-		child.SetActive(true); 
+		//child.SetActive(true); 
+	}
+
+	public GameObject getChild(){
+		return child;
 	}
 }
