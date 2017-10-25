@@ -14,6 +14,11 @@ public class TreeLife : MonoBehaviour {
 	bool rain = false;
 	bool dead = false;
 
+	public GameObject apple;
+
+	private float time;
+	private float spawnTime = 120;
+
 	public void raining() {
 		rain = true;
 	}
@@ -29,12 +34,25 @@ public class TreeLife : MonoBehaviour {
 			Debug.Log ("\"" + mats [i].name + "\"");
 		}
 
+		time = Time.time;
+		spawnTime = Random.Range (30, 40);
 	}
 	
 	bool a = true;
 
 	// Update is called once per frame
 	void Update () {
+		if (this.tag != "Grown") {
+			return;
+		}
+
+		if (apple != null && !dry && !wet && !dead && Time.time - time > spawnTime) {
+			time = Time.time;
+			spawnTime = Random.Range (30, 40);
+			Debug.Log ("Spawning Apple");
+			Instantiate (apple, transform.position + new Vector3 (Random.Range (-1f, 1f), 3f, Random.Range (-1f, 1f)), apple.transform.rotation);
+		}
+
 		float t = Time.deltaTime;
 		if (rain) {
 			timeWithRain += t;
@@ -47,7 +65,7 @@ public class TreeLife : MonoBehaviour {
 		GameObject model = transform.GetChild (1).gameObject;
 		Renderer rend = model.GetComponent<Renderer>();
 		if (Mathf.Abs (timeWithRain) > timeLimit * 2.0f) {
-			// TODO death state
+			
 			dead = true;
 			Material[] mats = rend.materials;
 				for(int i = 0; i < mats.Length; i++) {
@@ -55,6 +73,9 @@ public class TreeLife : MonoBehaviour {
 					mats [i].SetColor ("_Color", Color.red);
 				}
 			}
+
+			model.SetActive (false);
+			transform.GetChild (2).gameObject.SetActive (true);
 		}
 		if (Mathf.Abs (timeWithRain) > timeLimit * 4.0f) {
 			// Die
