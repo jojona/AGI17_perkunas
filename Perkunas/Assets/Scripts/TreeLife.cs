@@ -25,7 +25,7 @@ public class TreeLife : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		GameObject model = transform.GetChild (1).gameObject;
+		GameObject model = transform.GetChild (2).gameObject;
 		Renderer rend = model.GetComponent<Renderer>();
 		Material[] mats = rend.materials;
 		initialColor = new Color[mats.Length];

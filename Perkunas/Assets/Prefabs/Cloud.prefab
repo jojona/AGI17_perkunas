@@ -58,7 +58,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1074462317959850}
   m_LocalRotation: {x: -0.5, y: 0.5, z: 0.5, w: 0.5}
-  m_LocalPosition: {x: 7.53, y: 6.53, z: -3.5881271}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 30, y: 30, z: 30}
   m_Children:
   - {fileID: 4813818832373904}
@@ -181,7 +181,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 584e26db13c6231489ea929739491571, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  boltPrefab: {fileID: 0}
+  boltPrefab: {fileID: 1774345262273460, guid: b922499239891694898da70303a8f1ba, type: 2}
 --- !u!136 &136433542297290732
 CapsuleCollider:
   m_ObjectHideFlags: 1

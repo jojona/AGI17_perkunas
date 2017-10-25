@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class setOnFire : MonoBehaviour {
 
-	public GameObject child;
+	private GameObject child;
 	private string tagString;
 
 	// Use this for initialization

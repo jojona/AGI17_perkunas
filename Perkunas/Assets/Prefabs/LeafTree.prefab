@@ -390,6 +390,7 @@ GameObject:
   - component: {fileID: 114157256337446438}
   - component: {fileID: 114141406230126660}
   - component: {fileID: 65093107496191456}
+  - component: {fileID: 114896866973154562}
   m_Layer: 9
   m_Name: LeafTree
   m_TagString: Seed
@@ -866,7 +867,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3ab790c165fe4a840939a87d7070c0f1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  child: {fileID: 0}
 --- !u!114 &114157256337446438
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -878,6 +878,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac5d279ccee595f419a3fae668d669c0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &114896866973154562
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1936155420880354}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: be4c05652008ef24687e7eaf8091bfbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  apple: {fileID: 1333923631516738, guid: 29a9f5a3707924744b2b4ec3e97aac72, type: 2}
 --- !u!137 &137433362099717762
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1
