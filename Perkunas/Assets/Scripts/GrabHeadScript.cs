@@ -9,10 +9,9 @@ public class GrabHeadScript : MonoBehaviour {
 	//what this script does: once the box is grabbed, scale user up or down compared to the height of the controller at the time of grabbing
 	public Transform t; //t is the transform to scale
 	public GameObject g;
-	public double startHeight;
-	public double newHeight;
-	private double oldScale;
-	private double originalScale;
+	public float startHeight;
+	private float oldScale;
+	private float originalScale;
 
 	// Use this for initialization
 	void Start () {
@@ -23,18 +22,18 @@ public class GrabHeadScript : MonoBehaviour {
 	void Update () {
 		if (g != null) {
 			//get the heght of the controller given the old scale
-			double y = transform.position.y;//is this right?
-			y = oldScale * y / transform.localScale.y;
+			float y = g.transform.position.y;//is this right?
+			y = y / startHeight;
 
 			//calculate how much we need to increase/decrease scale in order to make sure we are at the new controller height
-			double newScale = y / startHeight;
+			float newScale = y *oldScale;
 
 			//update the scale in the transform
-			t.transform.localScale.x = newScale;//is this correct?
+			t.transform.localScale = new Vector3(newScale,newScale,newScale);//is this correct?
 		}
 	}
 
-	public double getScale() {
+	public float getScale() {
 		return t.transform.localScale.y / originalScale;//return how much we have scaled up since game start
 		//this is useful since it gives oltehr parts of the program a change behavioud depend scale good.
 		//for instance, increase area of terrain modification
@@ -44,6 +43,7 @@ public class GrabHeadScript : MonoBehaviour {
 	public override void attach(GameObject G) {
 		g = G;
 		startHeight = g.transform.position.y;
+		oldScale = transform.localscale.y;
 	}
 
 	public override void detach(Vector3 vel, Vector3 ang) {
