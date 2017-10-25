@@ -79,6 +79,7 @@ public class ShakeCloud : MonoBehaviour {
                     Animator ani = obj.GetComponent<Animator>();
                     ani.SetFloat("mySpeed", 0.7f);
                     obj.tag = "Grown";
+					obj.GetComponent<setOnFire> ().changeFire();
                 }
             }
         }
