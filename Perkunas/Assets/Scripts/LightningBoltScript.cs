@@ -40,6 +40,7 @@ public class LightningBoltScript : MonoBehaviour
 
     public int Rows = 1;
     public int Columns = 1;
+    public float lifetime = 0.5f;
 
 
     public LightningBoltAnimationMode AnimationMode = LightningBoltAnimationMode.PingPong;
@@ -239,6 +240,9 @@ public class LightningBoltScript : MonoBehaviour
 
     private void Update()
     {
+        if (lifetime < 0)
+            Destroy(gameObject);
+        lifetime -= Time.deltaTime;
         if (timer <= 0.0f)
         {
             if (ManualMode)
@@ -285,7 +289,6 @@ public class LightningBoltScript : MonoBehaviour
     }
 	void OnTriggerEnter(Collider other) 
 	{
-		Debug.Log ("Coucou");
 		if (other.gameObject.CompareTag ("Pick Up"))
 		{
 			other.gameObject.SetActive (false);
@@ -293,7 +296,6 @@ public class LightningBoltScript : MonoBehaviour
 	}
 
 	public void addFire(){
-		Debug.Log ("Coucou");
 		RaycastHit hit;
 		Vector3 direction = EndPosition - StartPosition;
 		//Debug.Log ("Le laser va partir vers de : " + StartPosition+ " vers : " + direction + " sur une distance de " + direction.magnitude);

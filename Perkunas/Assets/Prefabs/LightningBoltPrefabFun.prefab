@@ -116,12 +116,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   StartPosition: {x: 0, y: 2, z: 0}
   EndPosition: {x: 0, y: 0, z: 0}
+  treeMask:
+    serializedVersion: 2
+    m_Bits: 0
   Generations: 6
   Duration: 1
   ChaosFactor: 0.2
   ManualMode: 0
   Rows: 1
   Columns: 1
+  lifetime: 0.1
   AnimationMode: 0
 --- !u!114 &114532497090945326
 MonoBehaviour:

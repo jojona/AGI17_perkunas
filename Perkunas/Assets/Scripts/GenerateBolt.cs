@@ -8,7 +8,7 @@ public class GenerateBolt : MonoBehaviour {
     
 	void OnCollisionEnter(Collision col)
     {
-        if (col.gameObject.tag == "Cloud" && col.relativeVelocity.sqrMagnitude > 5)
+        if (col.gameObject.tag == "Cloud")
         {
             Vector3 vec = new Vector3(0, 0, 0);
             Quaternion quat = new Quaternion();
