@@ -71,8 +71,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   effectRadius: 1
   terrain: {fileID: 218024632920452436}
-  terrainWidth: 40
-  terrainMaxHeight: 3
+  terrainWidth: 100
+  terrainMaxHeight: 9
 --- !u!154 &154907662290568088
 TerrainCollider:
   m_ObjectHideFlags: 1
