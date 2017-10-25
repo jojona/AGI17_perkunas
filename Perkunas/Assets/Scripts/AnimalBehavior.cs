@@ -82,7 +82,11 @@ public class AnimalBehavior : MonoBehaviour {
         {
 			if (!foundApple) {
 				GameObject[] apples = GameObject.FindGameObjectsWithTag("Apple");
-				apple = apples[Random.Range(0, apples.Length)];
+				if (apples.Length == 0) {
+					apple = null;
+				} else {
+					apple = apples[Random.Range(0, apples.Length)];
+				}
 			}
 				
             if (apple != null)
@@ -130,7 +134,7 @@ public class AnimalBehavior : MonoBehaviour {
                 transform.LookAt(apple.transform);
                 transform.eulerAngles += new Vector3(0, -90, 0);
                 
-                if (Vector3.Distance(transform.position, apple.transform.position) < 0.7)
+				if (Vector3.Distance(transform.position, apple.transform.position) < 0.7f || Vector2.Distance(new Vector2(transform.position.x, transform.position.z), new Vector2(apple.transform.position.x, apple.transform.position.z)) < 0.4f)
                 {
                     anim.SetInteger("Behaviour", 1);
                     appleLifeTime -= Time.deltaTime;
