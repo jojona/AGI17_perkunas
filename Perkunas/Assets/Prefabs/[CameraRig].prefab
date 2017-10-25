@@ -55,7 +55,6 @@ GameObject:
   - component: {fileID: 20799995193373054}
   - component: {fileID: 114940340477544802}
   - component: {fileID: 92771927176720980}
-  - component: {fileID: 65583317611036158}
   m_Layer: 0
   m_Name: Camera (head)
   m_TagString: MainCamera
@@ -185,7 +184,9 @@ GameObject:
   - component: {fileID: 4277720357217690}
   - component: {fileID: 20349796734930142}
   - component: {fileID: 124797948388201712}
-  - component: {fileID: 114093640398375004}
+  - component: {fileID: 65367652026408640}
+  - component: {fileID: 114066659097848918}
+  - component: {fileID: 114502865711266842}
   m_Layer: 0
   m_Name: Camera (eye)
   m_TagString: MainCamera
@@ -458,18 +459,18 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.14, y: 0.07, z: 0.05}
   m_Center: {x: 0, y: -0.04, z: 0.02}
---- !u!65 &65583317611036158
+--- !u!65 &65367652026408640
 BoxCollider:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1369997075763220}
+  m_GameObject: {fileID: 1968059212759706}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 0.3, y: 0.3, z: 0.3}
-  m_Center: {x: 0, y: 0.1, z: 0}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!65 &65731386806203764
 BoxCollider:
   m_ObjectHideFlags: 1
@@ -512,7 +513,7 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
---- !u!114 &114093640398375004
+--- !u!114 &114066659097848918
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -520,12 +521,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1968059212759706}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6bca9ccf900ccc84c887d783321d27e2, type: 3}
+  m_Script: {fileID: 11500000, guid: 66ee71f172ad5134297fbd1c2dceef4a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _head: {fileID: 4533941300699696}
-  _ears: {fileID: 4597774345058890}
-  wireframe: 0
+  t: {fileID: 4328694907507664}
 --- !u!114 &114154027392687994
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -694,6 +693,20 @@ MonoBehaviour:
   - {x: -1.65, y: 0.01, z: -1.275}
   - {x: -1.65, y: 0.01, z: 1.275}
   - {x: 1.65, y: 0.01, z: 1.275}
+--- !u!114 &114502865711266842
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1968059212759706}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6bca9ccf900ccc84c887d783321d27e2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _head: {fileID: 4533941300699696}
+  _ears: {fileID: 4597774345058890}
+  wireframe: 0
 --- !u!114 &114563181127075166
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -801,16 +814,19 @@ MonoBehaviour:
   - {fileID: 1641321120707324, guid: a3fa5dfa0b3faa246aae5d401736b497, type: 2}
   - {fileID: 1358444242221724, guid: 425e671b76d99b046a63a1ececb13803, type: 2}
   - {fileID: 1056260128894290, guid: 36a8a010b975bda4888796fc6b5ddff2, type: 2}
+  - {fileID: 1491440575868706, guid: eededde69c2277b41a50628a5703d35f, type: 2}
   centerPosY:
   - 0.5
   - 0.5
   - 1
-  - 4
+  - 6
+  - 1
   spawnIndicator:
   - {fileID: 1334842527287152, guid: a8c26f45a31a43148b0f712f16ed1a52, type: 2}
   - {fileID: 1778445179512664, guid: ff3bf18e8aca16f4aa09435acee7f46f, type: 2}
   - {fileID: 1497173857474874, guid: 3ad5def27f28d5f4fb14195ea8b5d812, type: 2}
   - {fileID: 1923753755701294, guid: 11b9e8b6004e24040a931380039808ec, type: 2}
+  - {fileID: 1347194903085052, guid: 59b7fe1c364ab964f9b1fb893894dcd3, type: 2}
 --- !u!124 &124797948388201712
 Behaviour:
   m_ObjectHideFlags: 1

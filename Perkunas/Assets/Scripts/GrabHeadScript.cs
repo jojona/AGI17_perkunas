@@ -8,8 +8,8 @@ public class GrabHeadScript : Grabable {
 	* *****************************************************************/
 	//what this script does: once the box is grabbed, scale user up or down compared to the height of the controller at the time of grabbing
 	public Transform t; //t is the transform to scale
-	public GameObject g;
-	public float startHeight;
+	private GameObject g;
+	private float startHeight;
 	private float oldScale;
 	private float originalScale;
 
@@ -27,7 +27,7 @@ public class GrabHeadScript : Grabable {
 
 			//calculate how much we need to increase/decrease scale in order to make sure we are at the new controller height
 			float newScale = oldScale + (y * oldScale - oldScale) * 3.0f;
-			newScale = newScale < 0.1f ? 0.1f : newScale;
+			newScale = newScale < 3f ? 3f : newScale;
 			newScale = newScale > 11.5f ? 11.5f : newScale;			
 
 			//update the scale in the transform
@@ -37,7 +37,7 @@ public class GrabHeadScript : Grabable {
 
 	public float getScale() {
 		return t.localScale.y / originalScale;//return how much we have scaled up since game start
-		//this is useful since it gives oltehr parts of the program a change behavioud depend scale good.
+		//this is useful since it gives other parts of the program a change behavioud depend scale good.
 		//for instance, increase area of terrain modification
 		//grab trees when large anough
 	}

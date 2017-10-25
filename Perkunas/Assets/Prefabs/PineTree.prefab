@@ -148,7 +148,7 @@ GameObject:
   - component: {fileID: 114764380201136314}
   m_Layer: 0
   m_Name: PineTree
-  m_TagString: Grown
+  m_TagString: Seed
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -351,7 +351,7 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1664518624437886}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b530c3e7b657eff439df40dfec31c0d8, type: 3}
   m_Name: 

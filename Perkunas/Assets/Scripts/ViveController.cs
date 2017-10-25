@@ -6,7 +6,7 @@ public class ViveController : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		
+		GetComponent<InstantiateObjectOnReticle> ().increaseIndex ();
 	}
 
 	private SteamVR_TrackedObject trackedObj;
