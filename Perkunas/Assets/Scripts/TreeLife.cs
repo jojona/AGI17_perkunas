@@ -41,9 +41,8 @@ public class TreeLife : MonoBehaviour {
 		} else {
 			timeWithRain -= t;
 		}
+			
 
-		Debug.Log (rain);
-		rain = false;
 
 		GameObject model = transform.GetChild (1).gameObject;
 		Renderer rend = model.GetComponent<Renderer>();
@@ -67,7 +66,6 @@ public class TreeLife : MonoBehaviour {
 				Material[] mats = rend.materials;
 				for(int i = 0; i < mats.Length; i++) {
 					if (mats [i].name != "Bark (Instance)") {
-						mats [i].SetColor ("_Color", Color.blue);
 						mats [i].SetColor ("_Color", new Color(105f/255f, 51f/255f, 0f));
 					}
 				}
@@ -80,7 +78,8 @@ public class TreeLife : MonoBehaviour {
 					}
 				}
 				dry = true;
-			} else if (wet && timeWithRain < timeLimit) {
+			} else if (wet && !rain ){//timeWithRain < timeLimit) {
+				timeWithRain = timeLimit-0.5f;
 				Material[] mats = rend.materials;
 				for(int i = 0; i < mats.Length; i++) {
 					if (mats [i].name != "Bark (Instance)") {
@@ -88,7 +87,8 @@ public class TreeLife : MonoBehaviour {
 					}
 				}
 				wet = false;
-			} else if (dry && timeWithRain > -timeLimit) {
+			} else if (dry && rain){//timeWithRain > -timeLimit) {
+				timeWithRain = -timeLimit+0.5f;
 				Material[] mats = rend.materials;
 				for(int i = 0; i < mats.Length; i++) {
 					if (mats [i].name != "Bark (Instance)") {
@@ -98,6 +98,7 @@ public class TreeLife : MonoBehaviour {
 				dry = false;
 			}
 		}
+		rain = false;
 	}
 }
 

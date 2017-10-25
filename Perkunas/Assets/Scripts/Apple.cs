@@ -12,7 +12,7 @@ public class Apple : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		time = Time.time;
-		spawnTime = Random.Range (1, 2);
+		spawnTime = Random.Range (30, 40);
 	}
 	
 	// Update is called once per frame
@@ -21,7 +21,7 @@ public class Apple : MonoBehaviour {
 		if( this.tag == "Grown") {
 			if (Time.time - time > spawnTime) {
 				time = Time.time;
-				spawnTime = Random.Range (1, 2);
+				spawnTime = Random.Range (30, 40);
 				Debug.Log ("Spawning Apple");
 				Instantiate (apple, transform.position + new Vector3 (Random.Range (-1f, 1f), 3f, Random.Range (-1f, 1f)), apple.transform.rotation);
 			}

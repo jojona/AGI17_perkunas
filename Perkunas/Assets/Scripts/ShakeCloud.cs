@@ -84,7 +84,7 @@ public class ShakeCloud : MonoBehaviour {
 
 			trees = GameObject.FindGameObjectsWithTag("Grown");
 			foreach (GameObject obj in trees) {
-				if (Math.Abs (obj.transform.position.x - transform.position.x) < 10 && Math.Abs (obj.transform.position.z - transform.position.z) < 10) {
+				if (Math.Abs (obj.transform.position.x - transform.position.x) < 2 && Math.Abs (obj.transform.position.z - transform.position.z) < 2) {
 					TreeLife treeLife = obj.GetComponent<TreeLife> ();
 					treeLife.raining();
 				}
