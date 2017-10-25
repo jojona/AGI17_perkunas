@@ -8,6 +8,7 @@ TagManager:
   - RainDrop
   - Seed
   - Grown
+  - Apple
   layers:
   - Default
   - TransparentFX

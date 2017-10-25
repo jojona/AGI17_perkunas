@@ -60,7 +60,6 @@ public class ShakeCloud : MonoBehaviour {
             {
                 if (Math.Abs(obj.transform.position.x - transform.position.x) < 2 && Math.Abs(obj.transform.position.z - transform.position.z) < 2)
                 {
-                    //Start Animation INSTEAD LUL 
                     obj.tag = "Grown";
                 }
             }
