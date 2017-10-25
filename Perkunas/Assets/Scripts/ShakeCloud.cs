@@ -15,10 +15,11 @@ public class ShakeCloud : MonoBehaviour {
     private float period = 1;
     private GameObject[] trees;
     public Renderer rend;
-    private float shakeMagnitudeMax = 1000;
+    private float shakeMagnitudeMax = 500;
     private float shakeMagnitudeMin = 10;
     private Vector3 actualVelocity;
     private Vector3 previousPosition;
+    public bool isGrabbed = false;
 
     void Start()
     {
