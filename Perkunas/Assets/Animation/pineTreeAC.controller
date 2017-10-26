@@ -13,7 +13,7 @@ AnimatorController:
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   m_AnimatorLayers:
   - serializedVersion: 5
     m_Name: Base Layer
@@ -54,7 +54,7 @@ AnimatorState:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: Armature|Grow
+  m_Name: Armature|GrowVer2
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:
@@ -67,7 +67,7 @@ AnimatorState:
   m_SpeedParameterActive: 1
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 0d47da438077e9445ad53777ae01a571, type: 3}
+  m_Motion: {fileID: 7400006, guid: 0d47da438077e9445ad53777ae01a571, type: 3}
   m_Tag: 
   m_SpeedParameter: mySpeed
   m_MirrorParameter: 
@@ -105,7 +105,7 @@ AnimatorStateMachine:
   m_ChildStates:
   - serializedVersion: 1
     m_State: {fileID: 1102605777718636416}
-    m_Position: {x: 362, y: 218, z: 0}
+    m_Position: {x: 360, y: 192, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 1102885407149603110}
     m_Position: {x: 720, y: 204, z: 0}

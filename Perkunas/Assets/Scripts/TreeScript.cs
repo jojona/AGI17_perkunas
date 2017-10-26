@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class TreeScript : MonoBehaviour {
 
+	public float offset = 0;
+
 	private GameObject terrainObject;
 	private GrabableTerrain grabTerrain;
 	private Terrain terrain;
@@ -28,7 +30,7 @@ public class TreeScript : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		// Update y - position based on terrain
-		float y = terrain.terrainData.GetHeight ((int)heightmapPosX, (int)heightmapPosZ);
+		float y = terrain.terrainData.GetHeight ((int)heightmapPosX, (int)heightmapPosZ) + offset;
 		transform.Translate ( new Vector3(transform.position.x, y, transform.position.z) -transform.position);
 
 	}
