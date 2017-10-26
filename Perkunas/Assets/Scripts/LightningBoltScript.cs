@@ -299,11 +299,14 @@ public class LightningBoltScript : MonoBehaviour
 		RaycastHit hit;
 		Vector3 direction = EndPosition - StartPosition;
 		//Debug.Log ("Le laser va partir vers de : " + StartPosition+ " vers : " + direction + " sur une distance de " + direction.magnitude);
-		if(Physics.Raycast(StartPosition + new Vector3 (0,5,0), direction, out hit, direction.magnitude +10, treeMask)){
-			hit.collider.gameObject.GetComponent<setOnFire> ().getChild().SetActive(true);
-			Debug.Log("On a touche avec "  + gameObject.name  + " l'objet : " +hit.collider.gameObject.name + " a la position : " + hit.point);
-
-			hit.collider.gameObject.GetComponent<TreeLife> ().setFire ();
+		if (Physics.Raycast (StartPosition + new Vector3 (0, 5, 0), direction, out hit, direction.magnitude + 10, treeMask)) {
+			//Debug.Log ("On a touche avec " + gameObject.name + " l'objet : " + hit.collider.gameObject.name + " a la position : " + hit.point);
+			GameObject tree = hit.collider.gameObject.transform.parent.gameObject;
+			if (tree.GetComponent<setOnFire>().isLive()){
+				tree.GetComponent<setOnFire> ().StartFire ();
+				//Debug.Log ("On a touche avec " + gameObject.name + " l'objet : " + hit.collider.gameObject.name + " a la position : " + hit.point);
+				tree.GetComponent<TreeLife> ().setFire ();
+			}
 		}
 	}
 }
