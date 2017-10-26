@@ -19,7 +19,8 @@ public class TreeLife : MonoBehaviour {
 
 	private float time;
 	private float spawnTime = 120;
-
+	private bool destruct = false;
+	float timeWithFire = 0.0f;
 	public void raining() {
 		rain = true;
 	}
@@ -27,6 +28,7 @@ public class TreeLife : MonoBehaviour {
 	public void setFire() {
 		fire = true;
 		timeWithRain = 0; // TODO timeWithFire
+		timeWithFire = 0;
 	}
 
 	// Use this for initialization
@@ -39,7 +41,7 @@ public class TreeLife : MonoBehaviour {
 			initialColor[i] = mats [i].color;
 			Debug.Log ("\"" + mats [i].name + "\"");
 		}
-
+		destruct = false;
 		time = Time.time;
 		spawnTime = Random.Range (30, 40);
 	}
@@ -48,6 +50,38 @@ public class TreeLife : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
+		float t = Time.deltaTime;
+		if (fire) {
+			timeWithFire += t;
+		}
+
+		// Remove fire
+		if (rain && fire && timeWithRain > 5.0f) { // Fire for 5 seconds and rain
+			GetComponent<setOnFire> ().removeFire();
+			fire = false;
+		}
+
+
+		if (this.tag == "Seed") {
+
+			if (destruct && timeWithFire > 5.0f) {
+				Destroy (this.gameObject);
+			}
+			if (destruct) {
+				return;
+			}
+
+			//destruct the seed if to long on fire
+			if ((!(destruct)) && fire && timeWithFire > 4.5f) {
+				GetComponent<setOnFire> ().removeFire ();
+				GetComponent<setOnFire> ().setDead ();
+				destruct = true;
+			
+			}
+			rain = false;
+		}
+
+
 		if (this.tag != "Grown") {
 			return;
 		}
@@ -59,25 +93,20 @@ public class TreeLife : MonoBehaviour {
 			Instantiate (apple, transform.position + new Vector3 (Random.Range (-1f, 1f), 3f, Random.Range (-1f, 1f)), apple.transform.rotation);
 		}
 
-		float t = Time.deltaTime;
 		if (rain || fire) {
 			timeWithRain += t;
 		} else {
 			timeWithRain -= t;
 		}
 
-		// Remove fire
-		if (rain && fire && timeWithRain > 5.0f) { // Fire for 5 seconds and rain
-			GetComponent<setOnFire> ().getChild().SetActive(false);
-			fire = false;
-		}
 
 
 		GameObject model = transform.GetChild (2).gameObject;
 		Renderer rend = model.GetComponent<Renderer>();
 		if ((fire && timeWithRain > timeLimit) || Mathf.Abs (timeWithRain) > timeLimit * 2.0f) {
 			// Remove fire
-			GetComponent<setOnFire> ().getChild().SetActive(false);
+			GetComponent<setOnFire>().setDead();
+			GetComponent<setOnFire> ().removeFire();
 			fire = false;
 
 			// Die

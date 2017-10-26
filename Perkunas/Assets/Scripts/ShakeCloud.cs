@@ -75,13 +75,16 @@ public class ShakeCloud : MonoBehaviour {
             trees = GameObject.FindGameObjectsWithTag("Seed");
             foreach (GameObject obj in trees)
             {
-                if (Math.Abs(obj.transform.position.x - transform.position.x) < 2 && Math.Abs(obj.transform.position.z - transform.position.z) < 2)
-                {
-                    Animator ani = obj.GetComponent<Animator>();
-                    ani.SetFloat("mySpeed", 0.7f);
-                    obj.tag = "Grown";
-					obj.GetComponent<setOnFire> ().changeFire();
-                }
+				if(obj.GetComponent<setOnFire>().isNotOnFire() && obj.GetComponent<setOnFire>().isLive()){
+                	if (Math.Abs(obj.transform.position.x - transform.position.x) < 2 && Math.Abs(obj.transform.position.z - transform.position.z) < 2)
+                	{
+                   		Animator ani = obj.GetComponent<Animator>();
+                   	 	ani.SetFloat("mySpeed", 0.7f);
+                    	obj.tag = "Grown";
+						obj.GetComponent<setOnFire> ().changeFire();
+                	}
+				}
+				obj.GetComponent<TreeLife>().raining ();
             }
 
 			trees = GameObject.FindGameObjectsWithTag("Grown");
@@ -91,6 +94,7 @@ public class ShakeCloud : MonoBehaviour {
 					treeLife.raining();
 				}
 			}
+
         }
         previousPosition = rb.position;
     }
