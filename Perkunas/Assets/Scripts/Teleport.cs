@@ -48,7 +48,7 @@ public class Teleport : LaserPointer {
 	private void TeleportPlayer() {
 		shouldTeleport = false;
 		Vector3 difference = cameraRigTransform.position - headTransform.position;
-		difference.y = 0;
+		difference.y = -0.1f;
 		cameraRigTransform.position = hitPoint + difference;
 	}
 

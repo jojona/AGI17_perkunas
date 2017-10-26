@@ -34,7 +34,7 @@ public class InstantiateObjectOnReticle: LaserPointer
     private void SpawnTree() {
         shouldSpawnTree = false;
         Vector3 vec = hitPoint;
-		vec.y = centerPosY[index];
+		vec.y += centerPosY[index];
 
 		GameObject spawnAsset = spawnAssets [index];
 

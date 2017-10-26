@@ -15,10 +15,11 @@ public class ShakeCloud : MonoBehaviour {
     private float period = 1;
     private GameObject[] trees;
     public Renderer rend;
-    private float shakeMagnitudeMax = 1000;
+    private float shakeMagnitudeMax = 500;
     private float shakeMagnitudeMin = 10;
     private Vector3 actualVelocity;
     private Vector3 previousPosition;
+    public bool isGrabbed = false;
 
     void Start()
     {
@@ -74,17 +75,18 @@ public class ShakeCloud : MonoBehaviour {
             trees = GameObject.FindGameObjectsWithTag("Seed");
             foreach (GameObject obj in trees)
             {
-				if (Math.Abs (obj.transform.position.x - transform.position.x) < 2 && Math.Abs (obj.transform.position.z - transform.position.z) < 2) {
-					Animator ani = obj.GetComponent<Animator> ();
-					ani.SetFloat ("mySpeed", 0.7f);
-					obj.tag = "Grown";
-
-				}
+                if (Math.Abs(obj.transform.position.x - transform.position.x) < 2 && Math.Abs(obj.transform.position.z - transform.position.z) < 2)
+                {
+                    Animator ani = obj.GetComponent<Animator>();
+                    ani.SetFloat("mySpeed", 0.7f);
+                    obj.tag = "Grown";
+					obj.GetComponent<setOnFire> ().changeFire();
+                }
             }
 
 			trees = GameObject.FindGameObjectsWithTag("Grown");
 			foreach (GameObject obj in trees) {
-				if (Math.Abs (obj.transform.position.x - transform.position.x) < 10 && Math.Abs (obj.transform.position.z - transform.position.z) < 10) {
+				if (Math.Abs (obj.transform.position.x - transform.position.x) < 2 && Math.Abs (obj.transform.position.z - transform.position.z) < 2) {
 					TreeLife treeLife = obj.GetComponent<TreeLife> ();
 					treeLife.raining();
 				}

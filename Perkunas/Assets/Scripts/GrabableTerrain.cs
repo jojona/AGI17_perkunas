@@ -15,7 +15,8 @@ public class GrabableTerrain : Grabable {
 	private int textureFpscounter = 0;
 	private float starttime = 0.0f;
 	private float updatetime = 0.5f;
-
+	
+	public Texture2D heightMap;
 
 	private float[,] precalcWeigths;
 	// Use this for initialization
@@ -40,25 +41,57 @@ public class GrabableTerrain : Grabable {
 				precalcWeigths [x, y] = (float)Mathf.Cos ((float)((dist / (float)maxDist) * 0.5 * Mathf.PI));
 			}
 		}
+		
+		if(heightMap == null) {
+			//create very simple "standard" terrain
+			float[,] terr = new float[terrain.terrainData.heightmapWidth, terrain.terrainData.heightmapHeight];
 
-		//create very simple "standard" terrain
-		float[,] terr = new float[terrain.terrainData.heightmapWidth, terrain.terrainData.heightmapHeight];
-
-		maxDist = terrain.terrainData.heightmapWidth / 2;
-		for (int x = 0; x < terrain.terrainData.heightmapWidth; ++x) {
-			for (int y = 0; y < terrain.terrainData.heightmapHeight; ++y) {
-				float dist = (x - (maxDist))*(x-(maxDist));
-				dist += (y - (maxDist)) * (y - (maxDist));
-				dist = Mathf.Sqrt (dist);
-				terr [x, y] = (float)Mathf.Cos ((float)((dist / (float)maxDist) * 0.5 * Mathf.PI))*(1.0f/terrainMaxHeight);
+			maxDist = terrain.terrainData.heightmapWidth / 2;
+			for (int x = 0; x < terrain.terrainData.heightmapWidth; ++x) {
+				for (int y = 0; y < terrain.terrainData.heightmapHeight; ++y) {
+					float dist = (x - (maxDist))*(x-(maxDist));
+					dist += (y - (maxDist)) * (y - (maxDist));
+					dist = Mathf.Sqrt (dist);
+					terr [x, y] = (float)Mathf.Cos ((float)((dist / (float)maxDist) * 0.5 * Mathf.PI))*(1.0f/terrainMaxHeight);
+				}
 			}
+			// Flatten the terrain
+			terrain.terrainData.SetHeights (0, 0, terr);
+		} else {
+           		updateFromHeightMap();
 		}
-		// Flatten the terrain
-		terrain.terrainData.SetHeights (0, 0, terr);
 
 		updateTextureInSquare (0.0f, 0.0f, 1.0f);
 	}
 
+	private void updateFromHeightMap(){
+	
+		int h = heightMap.height;
+		int w = heightMap.width;
+		int w2 = terrain.terrainData.heightmapWidth;
+		float[,] terr = new float[w2,w2];
+		float ratioX = 1.0f/(((float)w2)/(w-1));
+		float ratioY = 1.0f/(((float)w2)/(h-1));
+		       Color[] mapColors = heightMap.GetPixels();
+		for (int y = 0; y < w2; y++) {
+			int yy = (int)Mathf.Floor(y*ratioY);
+			int y1 = yy*w;
+			int y2 = (yy+1)*w;
+			//float yw = y*w2;
+			for (int x = 0; x < w2; x++) {
+				int xx = (int)Mathf.Floor(x*ratioX);
+
+				Color bl = mapColors[y1 + xx];
+				Color br = mapColors[y1 + xx+1];
+				Color tl = mapColors[y2 + xx];
+				Color tr = mapColors[y2 + xx+1];
+
+				float xLerp = x*ratioX-xx;
+				terr[x,y] = Color.Lerp(Color.Lerp(bl, br, xLerp), Color.Lerp(tl, tr, xLerp), y*ratioY-yy).grayscale / 3.0f;
+			}
+		}
+		terrain.terrainData.SetHeights(0,0,terr);
+	}
 
 	private float max(float a, float b) {
 		return a > b ? a : b;

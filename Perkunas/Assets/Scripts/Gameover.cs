@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Gameover : MonoBehaviour {
 
@@ -33,5 +34,17 @@ public class Gameover : MonoBehaviour {
             printBool = true;
         }
 
+		if (Input.GetKeyDown(KeyCode.R)) {
+			SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+		}
+
+		if (Input.GetKeyDown(KeyCode.T)) {
+			canvas.SetActive (false);
+			startTime += 60;
+		}
+		if (Input.GetKeyDown(KeyCode.Y)) {
+			canvas.SetActive (false);
+			startTime -= 60;
+		}
 	}
 }

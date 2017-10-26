@@ -24,20 +24,20 @@ public class GrabTest : MonoBehaviour {
 	void Update () {
 		float dTime = UnityEngine.Time.fixedTime - startTime;
 		if (!hasGrabed && dTime >= timeTilGrab) {
-			Debug.Log ("test script grabbed");
+			//Debug.Log ("test script grabbed");
 			GetComponent<Grabber>().grab ();
 			hasGrabed = true;
 		}
 		if (dTime >= timeTilMove && dTime < timeTilStop) {
 			transform.Translate (velocity * UnityEngine.Time.deltaTime);
 		} else if (dTime >= timeTilStop && !done2) {
-			Debug.Log ("test script stopped after " + dTime + " seconds");
+			//Debug.Log ("test script stopped after " + dTime + " seconds");
 			done2 = true;
 		}
 		if (hasGrabed && !done1 && dTime > timeTilRelease) {
 			GetComponent<Grabber>().ungrab (releaseSpeed, releaseAngularVelocity);
 			done1 = true;
-			Debug.Log ("test script released");
+			//Debug.Log ("test script released");
 		}
 	}
 }
