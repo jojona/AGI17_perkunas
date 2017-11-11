@@ -6,13 +6,14 @@ public class Teleport : LaserPointer {
 
 	private bool shouldTeleport; 
 
+	// Draw the reticle and update the teleport location
 	public override void holdDown() {
 		if (Raycast ()) {
+			// Raycast from superclass to get teleport location
 			shouldTeleport = true;
 		} else {
-			laser.SetActive(false);
-
 			// Do a parabolic curve instead of straigt teleport line
+			laser.SetActive(false);
 			float angle = 90f - Vector3.Angle (Vector3.up, transform.forward);
 			if (angle < 90 && angle > 0) {
 				float force = 25f;
@@ -29,7 +30,6 @@ public class Teleport : LaserPointer {
 				hitPoint = hitPoint + new Vector3 (0, y, 0);
 				reticle.transform.position = hitPoint + teleportReticleOffset;
 
-				// TODO Cap it to end of map after map scene is created
 				shouldTeleport = true;
 			} else {
 				reticle.SetActive (false);
@@ -37,6 +37,7 @@ public class Teleport : LaserPointer {
 		}
 	}
 
+	// Relese the button
 	public override void release() {
 		if (shouldTeleport) {
 			TeleportPlayer();
@@ -45,6 +46,7 @@ public class Teleport : LaserPointer {
 		}
 	}
 
+	// Move the player to the new location
 	private void TeleportPlayer() {
 		shouldTeleport = false;
 		Vector3 difference = cameraRigTransform.position - headTransform.position;
@@ -52,6 +54,7 @@ public class Teleport : LaserPointer {
 		cameraRigTransform.position = hitPoint + difference;
 	}
 
+	// Unused
 	public override void increaseIndex ()
 	{
 		index = 0;

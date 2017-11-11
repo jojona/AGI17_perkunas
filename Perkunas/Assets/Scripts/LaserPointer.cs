@@ -57,6 +57,7 @@ public abstract class LaserPointer : MonoBehaviour {
 			hit.distance);
 	}
 
+	// Raycast from the controller to the teleportMask layer
 	protected bool Raycast() {
 		RaycastHit hit;
 

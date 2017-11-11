@@ -2,17 +2,24 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+// This class will spawn object based on where the user points the laser.
 public class InstantiateObjectOnReticle: LaserPointer
 {
-   
+   	
+   	// List of prefabs to spawn
 	public List<GameObject> spawnAssets;
+
+	// List of height offset for each prefab
 	public List<float> centerPosY;
+
+	// List of prefabs to show above the reticle for each object
 	public List<GameObject> spawnIndicator;
 
     private bool shouldSpawnTree;
 
 	private GameObject indicatorPrefab;
 
+	// Update the laser position based on superclass
 	public override void holdDown() {
 		if (Raycast ()) {
 			shouldSpawnTree = true;
@@ -22,6 +29,7 @@ public class InstantiateObjectOnReticle: LaserPointer
 		}
 	}
 
+	// Call spawn function and remove laser and reticle
 	public override void release() {
 		if (shouldSpawnTree) {
 			SpawnTree();
@@ -31,6 +39,7 @@ public class InstantiateObjectOnReticle: LaserPointer
 
 	}
 
+	// Spawn the object
     private void SpawnTree() {
         shouldSpawnTree = false;
         Vector3 vec = hitPoint;

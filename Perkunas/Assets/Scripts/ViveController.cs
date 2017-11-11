@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+// This class handles button input from the Vive controllers
 public class ViveController : MonoBehaviour {
 
 	// Use this for initialization
@@ -25,7 +26,7 @@ public class ViveController : MonoBehaviour {
 
 		// Controller inputs
 
-		// 	Touchpad
+		// 	Touchpad - Spawn objects or teleport depending on the "LaserPointer" subclass on the controller
 		//		Location
 		if (Controller.GetAxis () != Vector2.zero) {
 			//Debug.Log (gameObject.name + Controller.GetAxis ());
@@ -42,7 +43,7 @@ public class ViveController : MonoBehaviour {
 		}
 
 
-		// 	Hair Trigger
+		// 	Hair Trigger - Grabs objects with the grabbable script
 		if (Controller.GetHairTriggerDown ()) {
 			//Debug.Log (gameObject.name + "Trigger Press");
 			Grabber g = this.gameObject.GetComponent<Grabber> ();
@@ -61,7 +62,7 @@ public class ViveController : MonoBehaviour {
 			//Debug.Log (gameObject.name + "Trigger get");
 		}
 
-		// 	Grip button
+		// 	Grip button - Increase the index for the controller, this changes the object to spawn on the spawnobject controller
 		if (Controller.GetPressDown(SteamVR_Controller.ButtonMask.Grip)) {
 			//Debug.Log(gameObject.name + " Grip Press");
 

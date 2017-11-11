@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+// This class will make the tree follow the terrain if the height is edited.
 public class TreeScript : MonoBehaviour {
 
 	public float offset = 0;
@@ -12,6 +13,7 @@ public class TreeScript : MonoBehaviour {
 
 	private float heightmapPosX;
 	private float heightmapPosZ;
+	
 	// Use this for initialization
 	void Start () {
 		terrainObject = GameObject.Find ("Terrain");

@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+// This class will spawn the gameover text. 
+// This also contains keyboard input to increase the gametime or restart the scene
 public class Gameover : MonoBehaviour {
 
 	public GameObject canvas;
@@ -34,14 +36,18 @@ public class Gameover : MonoBehaviour {
             printBool = true;
         }
 
+        // Restart the scene
 		if (Input.GetKeyDown(KeyCode.R)) {
 			SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
 		}
 
+		// Give the player more time
 		if (Input.GetKeyDown(KeyCode.T)) {
 			canvas.SetActive (false);
 			startTime += 60;
 		}
+
+		// Give the player less time
 		if (Input.GetKeyDown(KeyCode.Y)) {
 			canvas.SetActive (false);
 			startTime -= 60;

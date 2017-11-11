@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+// Controls the lifetime of a tree.
+// Changes the color of the leaf materials based on if the tree is dry or wet.
+// Spawn apples if the tree is healty
 public class TreeLife : MonoBehaviour {
 
 	float timeWithRain = 0.0f;
@@ -26,7 +29,7 @@ public class TreeLife : MonoBehaviour {
 
 	public void setFire() {
 		fire = true;
-		timeWithRain = 0; // TODO timeWithFire
+		timeWithRain = 0; // timeWithFire
 	}
 
 	// Use this for initialization
@@ -43,8 +46,6 @@ public class TreeLife : MonoBehaviour {
 		time = Time.time;
 		spawnTime = Random.Range (30, 40);
 	}
-	
-	bool a = true;
 
 	// Update is called once per frame
 	void Update () {
@@ -52,6 +53,7 @@ public class TreeLife : MonoBehaviour {
 			return;
 		}
 
+		// Spawn apples
 		if (apple != null && !dry && !wet && !dead && Time.time - time > spawnTime) {
 			time = Time.time;
 			spawnTime = Random.Range (30, 40);
@@ -72,9 +74,10 @@ public class TreeLife : MonoBehaviour {
 			fire = false;
 		}
 
-
 		GameObject model = transform.GetChild (2).gameObject;
 		Renderer rend = model.GetComponent<Renderer>();
+
+		// Kill the tree if fire/wet/dry for to long
 		if ((fire && timeWithRain > timeLimit) || Mathf.Abs (timeWithRain) > timeLimit * 2.0f) {
 			// Remove fire
 			GetComponent<setOnFire> ().getChild().SetActive(false);
@@ -92,11 +95,14 @@ public class TreeLife : MonoBehaviour {
 			model.SetActive (false);
 			transform.GetChild (4).gameObject.SetActive (true);
 		}
+
+		// Remove the tree if dead long enough
 		if (Mathf.Abs (timeWithRain) > timeLimit * 4.0f) {
 			// Die
 			Destroy(this.gameObject);
 		}
 
+		// Set the tree dry/wet or normal based on timeWithRain
 		if (!dead) {
 			if (!wet && timeWithRain > timeLimit) {
 				Material[] mats = rend.materials;
@@ -114,7 +120,7 @@ public class TreeLife : MonoBehaviour {
 					}
 				}
 				dry = true;
-			} else if (wet && !rain ){//timeWithRain < timeLimit) {
+			} else if (wet && !rain ){
 				timeWithRain = timeLimit-0.5f;
 				Material[] mats = rend.materials;
 				for(int i = 0; i < mats.Length; i++) {
@@ -123,7 +129,7 @@ public class TreeLife : MonoBehaviour {
 					}
 				}
 				wet = false;
-			} else if (dry && rain){//timeWithRain > -timeLimit) {
+			} else if (dry && rain){
 				timeWithRain = -timeLimit+0.5f;
 				Material[] mats = rend.materials;
 				for(int i = 0; i < mats.Length; i++) {
