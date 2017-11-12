@@ -35,6 +35,10 @@ public class Grabber : MonoBehaviour {
 			bool noGrab = true;
 			//iterate through all colliders, use the first suitable
 			foreach(Collider c in colliders) {
+				//the list, and by extension this loop, is needed since we can be colliding with multiple objects at once
+				//if one moves away we still want to be able to grab an object we are colliding with
+				//if we didn't track objects we would have to move the controller away from collidable objects
+				//and then make it collide again to be able to grab something
 				Grabable g = c.gameObject.GetComponent<Grabable> ();
 				if (g != null) {
 					grabbed = c.gameObject;

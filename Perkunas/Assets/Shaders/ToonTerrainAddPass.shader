@@ -1,4 +1,14 @@
 ﻿Shader "Custom/ToonTerrainAddPass" {
+//***********************************************
+//BEWARE: THIS SHADER DOES NOT WORK
+//ISH
+//this is basically an unmodified version of some stuff i copied from the internet
+//do not use it.
+//it will probably break stufff
+//to avoid using: use only four or fewer textures on the terrain
+//***********************************************
+//END OF WARNING
+
 Properties {
  
     // Control Texture ("Splat Map")

@@ -42,6 +42,7 @@ public class GrabHeadScript : Grabable {
 		//grab trees when large anough
 	}
 
+	//attach head to controller
 	public override void attach(GameObject G) {
 		g = G;
 		startHeight = g.transform.position.y;
@@ -49,6 +50,7 @@ public class GrabHeadScript : Grabable {
 		Debug.Log("Grabbed the head at height " + t.position.y);
    	}
 
+	//detach head from controller
 	public override void detach(GameObject G, Vector3 vel, Vector3 ang) {
 		g = null;
        	Debug.Log("released the head at height " + t.position.y);

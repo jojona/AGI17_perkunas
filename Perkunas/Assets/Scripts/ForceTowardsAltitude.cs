@@ -14,6 +14,7 @@ public class ForceTowardsAltitude : MonoBehaviour {
 	void FixedUpdate () {
 		Rigidbody r = GetComponent<Rigidbody> ();
 		if (r != null) {
+			//create a force up or down depending on our relative altitude to the terget altitude.
 			r.AddForce (new Vector3 (0, 1, 0) * (height - transform.position.y) * forcemultiplier);
 		}
 	}

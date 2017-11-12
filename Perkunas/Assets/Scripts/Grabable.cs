@@ -12,6 +12,7 @@ public class Grabable : MonoBehaviour {
 	void Update () {
 
 	}
+	//attach object to controller
 	public virtual void attach(GameObject g) {
 		FixedJoint fx = g.gameObject.AddComponent<FixedJoint>();
     		fx.breakForce = 2000000;
@@ -20,6 +21,7 @@ public class Grabable : MonoBehaviour {
 		fx.connectedBody = GetComponent<Rigidbody>();
 	}
 
+	//detach object from controller
 	public virtual void detach(GameObject g, Vector3 vel, Vector3 ang) {
 		if (g != null && g.GetComponent<FixedJoint>() != null)
 			{

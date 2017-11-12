@@ -26,8 +26,9 @@ public class GrabableTerrain : Grabable {
 		}
 		if (terrain == null) {
 			Debug.Log ("no terrain in GrabableTerrain");
-			return;
+			return;//we have failed to get terrain, abort
 		}
+		//calculate things
 		resolutionPerUnit = ((float)terrain.terrainData.heightmapResolution) / terrainWidth;//((float)terrain.terrainData.heightmapWidth);
 		cubeWidth = (int)(effectRadius * resolutionPerUnit);
 		precalcWeigths = new float[cubeWidth, cubeWidth];
@@ -38,12 +39,14 @@ public class GrabableTerrain : Grabable {
 				float dist = (x - (maxDist))*(x-(maxDist));
 				dist += (y - (maxDist)) * (y - (maxDist));
 				dist = Mathf.Sqrt (dist);
+				//finally a nice cosine falloff
+				//we don't want to do this stuff in a large loop at runtime
 				precalcWeigths [x, y] = (float)Mathf.Cos ((float)((dist / (float)maxDist) * 0.5 * Mathf.PI));
 			}
 		}
 		
 		if(heightMap == null) {
-			//create very simple "standard" terrain
+			//if a heightmap is unavailable, create a very simple "standard" terrain
 			float[,] terr = new float[terrain.terrainData.heightmapWidth, terrain.terrainData.heightmapHeight];
 
 			maxDist = terrain.terrainData.heightmapWidth / 2;
@@ -64,6 +67,8 @@ public class GrabableTerrain : Grabable {
 		updateTextureInSquare (0.0f, 0.0f, 1.0f);
 	}
 
+	//sets the terrain heightmap from a texture
+	//I basically grabbed some example code from the internet and modified it to fit my needs
 	private void updateFromHeightMap(){
 	
 		int h = heightMap.height;
@@ -103,8 +108,9 @@ public class GrabableTerrain : Grabable {
 	void Update () {
 		textureFpscounter = (textureFpscounter + 1) % 15;
 
-
+		//ohgod
 		if (manipulator != null && terrain != null) {
+			//calculate which area we are supposed to manipulate etc
 			Vector2 manipRelPos = new Vector2 (manipulator.transform.position.x - transform.position.x, manipulator.transform.position.z- transform.position.z);
 			float manipRelHeight = manipulator.transform.position.y - transform.position.y;
 			int absX = (int)(manipRelPos.x * resolutionPerUnit);
@@ -117,7 +123,9 @@ public class GrabableTerrain : Grabable {
 			//Debug.Log ("resu: "+ resolutionPerUnit);
 			int maxDist = cubeWidth/2;
 			float offset = (float)0.025 / terrainMaxHeight;
+			//see if we are supposed to lower or raise the terrain
 			if(newHeight - offset > terrain.terrainData.GetHeight(absX, absY)/terrainMaxHeight) {
+				//raise the terrain
 				newHeight -= offset;
 				float[,] data = terrain.terrainData.GetHeights (absX - maxDist, absY - maxDist, cubeWidth, cubeWidth);
 				//Debug.Log("terrain height1: " + data[maxDist,maxDist]);
@@ -130,8 +138,10 @@ public class GrabableTerrain : Grabable {
 				}
 				//Debug.Log ("set to: " + data [maxDist, maxDist]);
 
+				//update heights
 				terrain.terrainData.SetHeights(absX - maxDist, absY - maxDist, data);
 
+				//do not update the terrain texture splatmaps every fframe since it's expensive
 				if (Time.time - starttime > updatetime ) {// textureFpscounter == 0) {
 					starttime = Time.time;
 					updateTextureInSquare (((float)(absX - maxDist)) / (float)terrain.terrainData.heightmapWidth,
@@ -139,6 +149,7 @@ public class GrabableTerrain : Grabable {
 						((float)cubeWidth) / (float)terrain.terrainData.heightmapWidth);
 				}
 			} else if(newHeight + offset < terrain.terrainData.GetHeight(absX, absY)/terrainMaxHeight){
+				//this if-statement does the same as the one above, except it lowers the terrain
 				newHeight += offset;
 				float[,] data = terrain.terrainData.GetHeights (absX - maxDist, absY - maxDist, cubeWidth, cubeWidth);
 				//Debug.Log("terrain height2: " + data[0,0]);
@@ -153,7 +164,7 @@ public class GrabableTerrain : Grabable {
 
 				terrain.terrainData.SetHeights(absX - maxDist, absY - maxDist, data);
 				if (Time.time - starttime > updatetime ) {// textureFpscounter == 0) {
-					starttime = Time.time;
+					starttime = Time.time;//since this operation is expensive we only do it once every X milliseconds
 					updateTextureInSquare (((float)(absX - maxDist)) / (float)terrain.terrainData.heightmapWidth,
 						((float)(absY - maxDist)) / (float)terrain.terrainData.heightmapWidth,
 						((float)cubeWidth) / (float)terrain.terrainData.heightmapWidth);
@@ -173,6 +184,7 @@ public class GrabableTerrain : Grabable {
 		int absX = (int)(manipRelPos.x * resolutionPerUnit);
 		int absY = (int)(manipRelPos.y * resolutionPerUnit);
 		int maxDist = cubeWidth/2;
+		//update the textures so there is less of a chance at texture errors at the end of the arc
 		updateTextureInSquare (((float)(absX - maxDist)) / (float)terrain.terrainData.heightmapWidth,
 			((float)(absY - maxDist)) / (float)terrain.terrainData.heightmapWidth,
 			((float)cubeWidth) / (float)terrain.terrainData.heightmapWidth);
@@ -183,8 +195,10 @@ public class GrabableTerrain : Grabable {
 		//we do nothing special with the release speeds here
 	}
 
+	//very expensive operation
 	public void updateTextureInSquare(float x_01, float y_01, float width_01) {
 		TerrainData terrData = terrain.terrainData;
+		//calculate the area we are supposed to update
 		int x = (int)(x_01 * terrData.alphamapWidth);
 		int y = (int)(y_01 * terrData.alphamapHeight);
 		int xMax = (int)((x_01 + width_01) * terrData.alphamapWidth);
@@ -196,7 +210,7 @@ public class GrabableTerrain : Grabable {
 		x = x < 0 ? 0 : x;
 		y = y < 0 ? 0 : y;
 
-
+		//allocate buffers
 		float[, ,] splatmapData = new float[ yMax - y, xMax - x,terrData.alphamapLayers];
 		float[] splatWeights = new float[terrData.alphamapLayers];//this is declared outside loop to reduce memory allocation in loop
 		float deltaX = 1.0f / (float)terrData.alphamapWidth;
